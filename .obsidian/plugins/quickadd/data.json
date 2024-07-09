@@ -1,281 +1,73 @@
 {
   "choices": [
     {
-      "id": "d8b837dd-a8c4-4220-866e-f6e49a3c8db4",
-      "name": "quick_Note",
-      "type": "Multi",
+      "id": "5054ac0e-5e6b-4850-8274-440b1ed5d79d",
+      "name": "notes",
+      "type": "Template",
       "command": false,
-      "choices": [
-        {
-          "id": "b3a1f80e-6dd4-49b5-bf42-8a091c21a19d",
-          "name": "时间戳笔记",
-          "type": "Template",
-          "command": false,
-          "templatePath": "FD-模板与提示/这是模板/时间戳笔记.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "{{date:yyyyMMDDHHmm}}_{{NAME}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "49-时间戳笔记"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": false
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        },
-        {
-          "id": "a2749fb7-fd43-426e-af4d-68363fb187f9",
-          "name": "THM",
-          "type": "Template",
-          "command": false,
-          "templatePath": "FD-模板与提示/这是模板/时间戳笔记.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "THM_{{NAME}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "53-project/tryHackMe"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": false
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        },
-        {
-          "id": "5f702b0b-9cb9-42b1-b1dd-a1661de676e0",
-          "name": "linux commond",
-          "type": "Template",
-          "command": false,
-          "templatePath": "FD-模板与提示/这是模板/dailylinux.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "{{date:yyyy_MM_DD}}_{{NAME}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "53-project/daily_linux"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": false
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        },
-        {
-          "id": "903b2ba2-36ea-485e-8fc8-0e59ab842be6",
-          "name": "漏洞复现",
-          "type": "Template",
-          "command": false,
-          "templatePath": "FD-模板与提示/这是模板/漏洞复现模板.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "{{value}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "53-project/漏洞复现"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": true
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        },
-        {
-          "id": "84a5133b-6e6a-480c-9037-78e97bbe3d22",
-          "name": "readpdf",
-          "type": "Template",
-          "command": false,
-          "templatePath": "FD-模板与提示/这是模板/时间戳笔记_read.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "{{DATE:YYYYMMDDHHMM}}_{{name}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "49-时间戳笔记"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": false
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        },
-        {
-          "id": "037bf961-be44-4944-802d-0996ec30a68c",
-          "name": "读书track",
-          "type": "Template",
-          "command": false,
-          "templatePath": "FD-模板与提示/这是模板/读书笔记.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "{{time:YYYYMMDDHHMM}}_{{value}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "49-时间戳笔记"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": false
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        }
-      ],
-      "collapsed": false
-    },
-    {
-      "id": "2fdba1f0-1ace-44e0-8563-544d0d53a545",
-      "name": "action",
-      "type": "Multi",
-      "command": false,
-      "choices": [
-        {
-          "id": "9e6b1061-e3ba-4db6-be01-a6ebd7f41296",
-          "name": "read",
-          "type": "Macro",
-          "command": false,
-          "macroId": "4323d5b6-a172-4327-9c95-194caae71fc3"
-        },
-        {
-          "id": "b4ae3289-3878-4d65-9b06-c9680cc1a834",
-          "name": "dailyctf",
-          "type": "Template",
-          "command": false,
-          "templatePath": "00-模板与提示/这是模板/dailyctf.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "ctf_{{date}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "53-project/liuyun_CTF/dailyctf"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": true
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        },
-        {
-          "id": "9d7bf34b-7837-4f28-96ac-85e635d6d533",
-          "name": "dailylinux",
-          "type": "Template",
-          "command": false,
-          "templatePath": "00-模板与提示/这是模板/dailylinux.md",
-          "fileNameFormat": {
-            "enabled": true,
-            "format": "{{date}}_{{name}}"
-          },
-          "folder": {
-            "enabled": true,
-            "folders": [
-              "53-project/daily_linux"
-            ],
-            "chooseWhenCreatingNote": false,
-            "createInSameFolderAsActiveFile": false,
-            "chooseFromSubfolders": true
-          },
-          "appendLink": false,
-          "openFileInNewTab": {
-            "enabled": false,
-            "direction": "vertical",
-            "focus": true
-          },
-          "openFile": true,
-          "openFileInMode": "source",
-          "fileExistsMode": "Nothing",
-          "setFileExistsBehavior": true
-        }
-      ],
-      "collapsed": true
+      "templatePath": "content/templates/commom.md",
+      "fileNameFormat": {
+        "enabled": true,
+        "format": "{{name}}"
+      },
+      "folder": {
+        "enabled": true,
+        "folders": [
+          "content/posts"
+        ],
+        "chooseWhenCreatingNote": false,
+        "createInSameFolderAsActiveFile": false,
+        "chooseFromSubfolders": false
+      },
+      "appendLink": false,
+      "openFileInNewTab": {
+        "enabled": false,
+        "direction": "vertical",
+        "focus": true
+      },
+      "openFile": true,
+      "openFileInMode": "source",
+      "fileExistsMode": "Nothing",
+      "setFileExistsBehavior": false
     }
   ],
   "macros": [
     {
-      "name": "read",
-      "id": "4323d5b6-a172-4327-9c95-194caae71fc3",
+      "name": "note",
+      "id": "a695ab7b-4778-4a6f-9982-4ef00f0ff33a",
       "commands": [
         {
-          "name": "Workspaces Plus: Load: read",
-          "type": "Obsidian",
-          "id": "7f321e09-308e-4469-975c-948f0f01ac11",
-          "commandId": "workspaces-plus:read"
+          "name": "Untitled Template Choice",
+          "type": "NestedChoice",
+          "id": "9d1fb286-c32b-48d1-9720-3df4bff0c2c1",
+          "choice": {
+            "id": "5eda3276-0000-44f6-a15c-33dd0b94d470",
+            "name": "Untitled Template Choice",
+            "type": "Template",
+            "command": false,
+            "templatePath": "content/templates/commom.md",
+            "fileNameFormat": {
+              "enabled": false,
+              "format": ""
+            },
+            "folder": {
+              "enabled": false,
+              "folders": [],
+              "chooseWhenCreatingNote": false,
+              "createInSameFolderAsActiveFile": false,
+              "chooseFromSubfolders": false
+            },
+            "appendLink": false,
+            "openFileInNewTab": {
+              "enabled": false,
+              "direction": "vertical",
+              "focus": true
+            },
+            "openFile": false,
+            "openFileInMode": "default",
+            "fileExistsMode": "Increment the file name",
+            "setFileExistsBehavior": false
+          }
         }
       ],
       "runOnStartup": false
@@ -283,7 +75,7 @@
   ],
   "inputPrompt": "single-line",
   "devMode": false,
-  "templateFolderPath": "00-模板与提示/这是模板",
+  "templateFolderPath": "content/templates",
   "announceUpdates": true,
   "version": "1.8.1",
   "disableOnlineFeatures": true,

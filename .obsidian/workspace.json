@@ -19,8 +19,35 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "fc1341112ea4af4c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/templates/commom.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "377e414d39a004a4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/posts/hello world.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -77,7 +104,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "content/posts/hello world.md"
+              }
             }
           },
           {
@@ -86,6 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "content/posts/hello world.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,8 +134,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -124,9 +153,25 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "25ce6e10d94a623f",
+  "active": "377e414d39a004a4",
   "lastOpenFiles": [
+    "content/templates/commom.md",
+    "content/posts/hello world.md",
+    "content/posts/l1uyun}.md",
+    "content/posts/1111}.md",
+    "l1uyun}.md",
     "README.md",
+    "content/posts/Untitled.md",
+    "content/posts/Untitled 1.md",
+    "content/posts/未命名.md",
+    "content/posts/migrate-from-jekyll.md",
+    "content/templates",
+    "content/about.md",
+    "content/posts/goisforlovers.fr.md",
+    "content/posts/hugoisforlovers.md",
+    "content/posts/hugoisforlovers.fr.md",
+    "content/posts/goisforlovers.md",
+    "content/posts/creating-a-new-theme.fr.md",
     "homepage.md",
     "49-时间戳笔记/202407091529_小学期.md",
     "53-project/daily_linux/2024_07_07_curl.md",
@@ -147,30 +192,14 @@
     "FD-模板与提示/这是模板/读书笔记.md",
     "FD-模板与提示/我是傻逼/callout Block语法.md",
     "FD-模板与提示/我是傻逼/标签说明.md",
-    "49-时间戳笔记/202407052055_awk.md",
     "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
-    "49-时间戳笔记/202407051953_sed.md",
-    "53-project/daily_linux/2024_07_06_awk.md",
-    "53-project/daily_linux/2024_07_06_tr.md",
-    "53-project/daily_linux/2024_07_06_grep.md",
-    "53-project/daily_linux/2024_07_06_du.md",
-    "53-project/daily_linux/2024-02-24_fzf.md",
-    "53-project/daily_linux/2024-02-16_curl cheat.sh.md",
-    "53-project/daily_linux/2024-02-14_pwncat.md",
-    "53-project/daily_linux/2024-02-05_netstat.md",
-    "53-project/daily_linux/2024_07_07_sort.md",
-    "53-project/daily_linux/2024_07_07_xargs.md",
-    "53-project/daily_linux/2024-01-30_ls.md",
-    "53-project/daily_linux/2024-01-31_ss.md",
     "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
-    "53-project/daily_linux/2024_07_07_uniq.md",
     "FD-模板与提示/芝士附件/Pasted image 20240707125701.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707093408.png",
     "FF-book/mind/决策与理性_基思·斯坦诺维奇.pdf",
     "FF-book/sec/Sed and Awk 101 Hacks -中文版 (无) (Z-Library).pdf",
     "FF-book/sec/awk+sed(1).pdf",
     "01-collection/Sqlmap Getshell 的方法 - Track 知识社区 - 掌控安全在线教育 - Powered by 掌控者.pdf",
-    "01-collection/构建终身学习体系进行自我提升 · BMPI.pdf",
-    "01-collection/劝老人体检难过高考？不如先了解一下他们需要的这些细节.pdf"
+    "01-collection/构建终身学习体系进行自我提升 · BMPI.pdf"
   ]
 }
