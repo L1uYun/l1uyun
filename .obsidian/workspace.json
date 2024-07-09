@@ -21,12 +21,12 @@
             }
           },
           {
-            "id": "fc1341112ea4af4c",
+            "id": "a11056da313a9244",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/templates/commom.md",
+                "file": "content/posts/hello world.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": false
@@ -34,7 +34,7 @@
             }
           },
           {
-            "id": "377e414d39a004a4",
+            "id": "c3fca948f8ba4097",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -134,8 +134,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -154,18 +153,18 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "377e414d39a004a4",
+  "active": "c3fca948f8ba4097",
   "lastOpenFiles": [
+    "content/posts/hello world.md",
+    "README.md",
     "gitignore",
     "新建 Text Document.txt",
     "content/posts/migrate-from-jekyll.md",
     "content/posts/migrate-from-jekyll.fr.md",
-    "content/posts/hello world.md",
     "content/templates/commom.md",
     "content/posts/l1uyun}.md",
     "content/posts/1111}.md",
     "l1uyun}.md",
-    "README.md",
     "content/posts/Untitled.md",
     "content/posts/Untitled 1.md",
     "content/posts/未命名.md",
@@ -200,7 +199,6 @@
     "FD-模板与提示/芝士附件/Pasted image 20240707093408.png",
     "FF-book/mind/决策与理性_基思·斯坦诺维奇.pdf",
     "FF-book/sec/Sed and Awk 101 Hacks -中文版 (无) (Z-Library).pdf",
-    "FF-book/sec/awk+sed(1).pdf",
-    "01-collection/Sqlmap Getshell 的方法 - Track 知识社区 - 掌控安全在线教育 - Powered by 掌控者.pdf"
+    "FF-book/sec/awk+sed(1).pdf"
   ]
 }
