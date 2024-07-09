@@ -31,6 +31,6 @@ jobs:
               with:
                   PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
                   EXTERNAL_REPOSITORY: L1uYun/L1uYun.github.io # 改成你的仓库
-                  PUBLISH_BRANCH: pages
+                  PUBLISH_BRANCH: page
                   PUBLISH_DIR: ./public
                   commit_message: ${{ github.event.head_commit.message }}
