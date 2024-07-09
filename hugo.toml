@@ -1,4 +1,4 @@
-baseURL = "https://yaofun.top"
+baseURL = "https://l1uyun.one"
 title   = "l1uyun"
 languageCode = "zh-cn"
 theme = "hello-friend-ng"
@@ -260,8 +260,3 @@ disableHugoGeneratorInject = false
    name       = "Tags"
    url        = "/tags/"
    weight     = "9"
-  [[menu.main]]
-    identifier = "running"
-    name       = "Running"
-    url        = "running/"
-    weight     = "3"
