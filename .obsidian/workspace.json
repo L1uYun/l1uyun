@@ -134,7 +134,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -155,8 +156,10 @@
   },
   "active": "377e414d39a004a4",
   "lastOpenFiles": [
-    "content/templates/commom.md",
+    "content/posts/migrate-from-jekyll.md",
+    "content/posts/migrate-from-jekyll.fr.md",
     "content/posts/hello world.md",
+    "content/templates/commom.md",
     "content/posts/l1uyun}.md",
     "content/posts/1111}.md",
     "l1uyun}.md",
@@ -164,7 +167,6 @@
     "content/posts/Untitled.md",
     "content/posts/Untitled 1.md",
     "content/posts/未命名.md",
-    "content/posts/migrate-from-jekyll.md",
     "content/templates",
     "content/about.md",
     "content/posts/goisforlovers.fr.md",
@@ -191,7 +193,6 @@
     "01-collection/tmp-从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.html",
     "FD-模板与提示/这是模板/读书笔记.md",
     "FD-模板与提示/我是傻逼/callout Block语法.md",
-    "FD-模板与提示/我是傻逼/标签说明.md",
     "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125701.png",
