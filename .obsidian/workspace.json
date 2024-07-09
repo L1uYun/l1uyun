@@ -1,0 +1,176 @@
+{
+  "main": {
+    "id": "a9296116cd528f7e",
+    "type": "split",
+    "children": [
+      {
+        "id": "02f68a80a62ebf5c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "afc0dfd2a0b94365",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b65d28f9cee49ca7",
+    "type": "split",
+    "children": [
+      {
+        "id": "8b8e9803c944dac4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "25ce6e10d94a623f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "9c91ca6847a015d3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 255.01103591918945
+  },
+  "right": {
+    "id": "5c00622e47bed8a4",
+    "type": "split",
+    "children": [
+      {
+        "id": "367b33ee62100235",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a6853442aeb52eeb",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          },
+          {
+            "id": "e81d38ef944fdc24",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a1b3bc36a84bbe4f",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 288
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "homepage:Open homepage": false,
+      "templater-obsidian:Templater": false,
+      "templates:插入模板": true,
+      "random-note:开始漫游笔记": true,
+      "workspaces:管理工作区布局": false,
+      "switcher:打开快速切换": true,
+      "canvas:新建白板": true,
+      "command-palette:打开命令面板": true,
+      "zk-prefixer:创建时间戳笔记": true
+    }
+  },
+  "active": "25ce6e10d94a623f",
+  "lastOpenFiles": [
+    "README.md",
+    "homepage.md",
+    "49-时间戳笔记/202407091529_小学期.md",
+    "53-project/daily_linux/2024_07_07_curl.md",
+    "49-时间戳笔记/202407052109_todo.md",
+    "FD-模板与提示/芝士附件/homepage_image_1.png",
+    "FD-模板与提示/芝士附件/Pasted image 20240709103340.png",
+    "FD-模板与提示/芝士附件/202407052109_todo_image_1.png",
+    "FD-模板与提示/芝士附件/tmp1720492334199_202407052109_todo_image_1.png",
+    "49-时间戳笔记/Pasted.md",
+    "FD-模板与提示/芝士附件/tmp1720492156125_202407052109_todo_image_1.png",
+    "FD-模板与提示/芝士附件/1c4a83ffa8ec95cf65d1494fb813c31e.png",
+    "21-liuyun/日记/20240709.md",
+    "49-时间戳笔记/202407090859_bilibili快速取关.md",
+    "01-collection/untitled.pdf",
+    "01-collection/tmp-untitled.html",
+    "01-collection/从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.pdf",
+    "01-collection/tmp-从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.html",
+    "FD-模板与提示/这是模板/读书笔记.md",
+    "FD-模板与提示/我是傻逼/callout Block语法.md",
+    "FD-模板与提示/我是傻逼/标签说明.md",
+    "49-时间戳笔记/202407052055_awk.md",
+    "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
+    "49-时间戳笔记/202407051953_sed.md",
+    "53-project/daily_linux/2024_07_06_awk.md",
+    "53-project/daily_linux/2024_07_06_tr.md",
+    "53-project/daily_linux/2024_07_06_grep.md",
+    "53-project/daily_linux/2024_07_06_du.md",
+    "53-project/daily_linux/2024-02-24_fzf.md",
+    "53-project/daily_linux/2024-02-16_curl cheat.sh.md",
+    "53-project/daily_linux/2024-02-14_pwncat.md",
+    "53-project/daily_linux/2024-02-05_netstat.md",
+    "53-project/daily_linux/2024_07_07_sort.md",
+    "53-project/daily_linux/2024_07_07_xargs.md",
+    "53-project/daily_linux/2024-01-30_ls.md",
+    "53-project/daily_linux/2024-01-31_ss.md",
+    "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
+    "53-project/daily_linux/2024_07_07_uniq.md",
+    "FD-模板与提示/芝士附件/Pasted image 20240707125701.png",
+    "FD-模板与提示/芝士附件/Pasted image 20240707093408.png",
+    "FF-book/mind/决策与理性_基思·斯坦诺维奇.pdf",
+    "FF-book/sec/Sed and Awk 101 Hacks -中文版 (无) (Z-Library).pdf",
+    "FF-book/sec/awk+sed(1).pdf",
+    "01-collection/Sqlmap Getshell 的方法 - Track 知识社区 - 掌控安全在线教育 - Powered by 掌控者.pdf",
+    "01-collection/构建终身学习体系进行自我提升 · BMPI.pdf",
+    "01-collection/劝老人体检难过高考？不如先了解一下他们需要的这些细节.pdf"
+  ]
+}
