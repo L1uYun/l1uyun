@@ -1,17 +1,19 @@
-baseURL = "https://example.com"
-title   = "Hello Friend NG"
-languageCode = "en-us"
+baseURL = "https://yaofun.top"
+title   = "l1uyun"
+languageCode = "zh-cn"
 theme = "hello-friend-ng"
 
 PygmentsCodeFences = true
-PygmentsStyle = "monokai"
+#PygmentsStyle = "monokai"
+PygmentsStyle = "github-dark"
 
-paginate  = 10
+paginate  = 14
 rssLimit  = 10  # Maximum number of items in the RSS feed.
 copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License." # This message is only used by the RSS template.
 
-# googleAnalytics = ""
+googleAnalytics = "G-RSXEZVCJT4"
 # disqusShortname = ""
+hasCJKLanguage = true
 
 archetypeDir = "archetypes"
 contentDir   = "content"
@@ -45,6 +47,8 @@ disableHugoGeneratorInject = false
   series   = "series"
 
 [params]
+    [params.author]
+    name = "Jane Doe"
 
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
@@ -53,10 +57,11 @@ disableHugoGeneratorInject = false
 
   # Metadata mostly used in document's head
   # 
-  description = "Nice theme for homepages and blogs"
-  keywords = ""
+  description = "Welcome to l1uyun's blog"
+  keywords = "渗透,佛学"
   images = [""]
 
+    
   # Home subtitle of the index page.
   #
   homeSubtitle = "Hello Friend NG"
@@ -78,7 +83,8 @@ disableHugoGeneratorInject = false
   # Per default, this option is off. 
   # The theme is respecting the prefers-color-scheme of the operating system. 
   # With this option on, the page user is able to set the scheme he wants. 
-  enableThemeToggle = false
+
+  enableThemeToggle = true
 
   # Sharing buttons
   #
@@ -97,7 +103,7 @@ disableHugoGeneratorInject = false
   # Integrate Javascript files or stylesheets by adding the url to the external assets or by
   # linking local files with their path relative to the static folder, e.g. "css/styles.css"
   #
-  customCSS = []
+  customCSS = ['/css/custom.css']
   customJS  = []
 
   # Toggle this option need to rebuild SCSS, requires extended version of Hugo
@@ -108,14 +114,11 @@ disableHugoGeneratorInject = false
   # plausibleDataDomain = 'test.com'
   # plausibleScriptSource = 'https://plausible.io/js/script.js'
 
-  [params.author]
-    name = "Jane Doe"
-
   # Custom footer 
   # If you want, you can easily override the default footer with your own content. 
   #
   [params.footer]
-    trademark = 2023
+    trademark = 2024
     rss = true
     copyright = true
     author = true
@@ -127,7 +130,6 @@ disableHugoGeneratorInject = false
     ]
 
   # Colors for favicons
-  #
   [params.favicon.color]
     mask = "#1b1c1d"
     msapplication = "#1b1c1d"
@@ -135,12 +137,12 @@ disableHugoGeneratorInject = false
 
   [params.logo]
     logoMark     = ">"
-    logoText     = "$ cd /home/"
+    logoText     = "$ cd /home/treesblue🌲 "
     logoHomeLink = "/"
     # Set true to remove the logo cursor entirely.
     # logoCursorDisabled = false
     # Set to a valid CSS color to change the cursor in the logo.
-    # logoCursorColor    = "#67a2c9"
+    logoCursorColor    = "#428433"
     # Set to a valid CSS time value to change the animation duration, "0s" to disable.
     # logoCursorAnimate  = "2s"
     # Append the current url pathname to logoText 
@@ -150,26 +152,27 @@ disableHugoGeneratorInject = false
   # Addon: Startpage portrait 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   # Uncomment this if you want a portrait on your start page
-  #
-  # [params.portrait]
-  #   path     = "/img/image.jpg"
-  #   alt      = "Portrait"
-  #   maxWidth = "50px"
 
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
-  # Addon: Commento
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-  # Commento is more than just a comments widget you can embed — 
-  # it’s a return to the roots of the internet. 
-  # An internet without the tracking and invasions of privacy. 
-  # An internet that is simple and lightweight. 
-  # An internet that is focused on interesting discussions, not ads. 
-  # A better internet.
-  # Uncomment this to enable Commento.
-  #
-  # [params.commento]
-  #   url = ""
+  [params.portrait]
+    #path     = "https://raw.githubusercontent.com/goby-ao/picgo/main/img/IMG_6041.jpeg"
+    #path     = "/img/cover.jpeg"
+    #alt      = "Portrait"
+    maxWidth = "690px"
+    hello = "「活在一个对一切都感兴趣的年纪，我不能让我的所有好奇都流于空想」"
 
+
+  [[params.Portraits]]
+    Path = "https://cdn.jsdelivr.net/gh/goby-ao/picgo@main/img/cover0.jpeg"
+    Alt = "Image 1 Description"
+
+  [[params.Portraits]]
+    Path = "https://cdn.jsdelivr.net/gh/goby-ao/picgo@main/img/cover1.jpeg"
+    Alt = "Image 2 Description"
+
+  [[params.Portraits]]
+    Path = "https://cdn.jsdelivr.net/gh/goby-ao/picgo@main/img/cover2.jpeg"
+    Alt = "Image 2 Description"
+ 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
   # Addon: Utteranc.es
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -177,14 +180,14 @@ disableHugoGeneratorInject = false
   # See https://utteranc.es/ for documentation
   # Uncomment this to enable Utteranc.es.
   #
-  # [params.utterances]
+   [params.utterances]
   #   Your GitHub repository
   #
-  #   repository = ""
+     repository = "goby-ao/goby-ao.github.io"
   #
   #   label used for GitHub issues
   #
-  #   label      = ""
+     label      = "blog comment"
   # 
   #   Blog Post <-> Issue mapping. This parameter is optional. Possible values are:
   #      - pathname
@@ -194,7 +197,7 @@ disableHugoGeneratorInject = false
   #      - issue number
   #      - specific term
   #
-  #   issueTerm  = ""
+     issueTerm  = "title"
   #
   #   Theme used: possible values are:
   #      - github-light
@@ -207,8 +210,8 @@ disableHugoGeneratorInject = false
   #      - boxy-light
   #      - gruvbox-dark
   #
-  #   theme      = ""
-  # 
+     theme      = "github-light"
+
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
   # Addon: Social icons
@@ -216,43 +219,49 @@ disableHugoGeneratorInject = false
   #
   [[params.social]]
     name = "twitter"
-    url  = "https://twitter.com/"
+    url  = "https://twitter.com/Sunflowers724"
+
+  [[params.social]]
+    name = "weibo"
+    url  = "https://weibo.com/u/1714318434"
+
+  [[params.social]]
+    name = "bilibili"
+    url  = "https://space.bilibili.com/28799872"
 
   [[params.social]]
     name = "email"
-    url  = "mailto:nobody@example.com"
+    url  = "mailto:tracyao@outlook.com"
 
   [[params.social]]
     name = "github"
-    url  = "https://github.com/"
-
-  [[params.social]]
-    name = "linkedin"
-    url  = "https://www.linkedin.com/"
-
-  [[params.social]]
-    name = "stackoverflow"
-    url  = "https://www.stackoverflow.com/"
+    url  = "https://github.com/goby-ao"
 
 [languages]
   [languages.en]
     weight    = 1
     copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
   [languages.en.params]
-    subtitle  = "Hello Friend NG Theme"
-
-  [languages.fr]
-    weight    = 2
-    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-  [languages.fr.params]
-    subtitle  = "Hello Friend NG Theme"
+    subtitle  = "Yao's Blog"
 
 [menu]
-  [[menu.main]]
-    identifier = "about"
-    name       = "About"
-    url        = "about/"
   [[menu.main]]
     identifier = "posts"
     name       = "Posts"
     url        = "posts/"
+    weight     = "1"
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "about/"
+    weight     = "10"
+ [[menu.main]]
+   identifier = "tags"
+   name       = "Tags"
+   url        = "/tags/"
+   weight     = "9"
+  [[menu.main]]
+    identifier = "running"
+    name       = "Running"
+    url        = "running/"
+    weight     = "3"
