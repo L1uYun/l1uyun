@@ -156,6 +156,8 @@
   },
   "active": "377e414d39a004a4",
   "lastOpenFiles": [
+    "gitignore",
+    "新建 Text Document.txt",
     "content/posts/migrate-from-jekyll.md",
     "content/posts/migrate-from-jekyll.fr.md",
     "content/posts/hello world.md",
@@ -192,7 +194,6 @@
     "01-collection/从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.pdf",
     "01-collection/tmp-从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.html",
     "FD-模板与提示/这是模板/读书笔记.md",
-    "FD-模板与提示/我是傻逼/callout Block语法.md",
     "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125701.png",
@@ -200,7 +201,6 @@
     "FF-book/mind/决策与理性_基思·斯坦诺维奇.pdf",
     "FF-book/sec/Sed and Awk 101 Hacks -中文版 (无) (Z-Library).pdf",
     "FF-book/sec/awk+sed(1).pdf",
-    "01-collection/Sqlmap Getshell 的方法 - Track 知识社区 - 掌控安全在线教育 - Powered by 掌控者.pdf",
-    "01-collection/构建终身学习体系进行自我提升 · BMPI.pdf"
+    "01-collection/Sqlmap Getshell 的方法 - Track 知识社区 - 掌控安全在线教育 - Powered by 掌控者.pdf"
   ]
 }
