@@ -8,28 +8,19 @@
         "type": "tabs",
         "children": [
           {
-            "id": "0caf14bdabccd7a9",
+            "id": "afc0dfd2a0b94365",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/hello world.md",
+                "file": "README.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": false
               }
             }
-          },
-          {
-            "id": "6a5de7ff431f4aae",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -86,7 +77,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "README.md"
+              }
             }
           },
           {
@@ -95,6 +88,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,8 +107,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -133,18 +126,22 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "6a5de7ff431f4aae",
+  "active": "afc0dfd2a0b94365",
   "lastOpenFiles": [
+    "archetypes/templates/commom.md",
+    "public/tags/l1uyun/page/1/index.html",
+    "public/tags/l1uyun/page/1",
+    "public/tags/page/1/index.html",
+    "public/tags/l1uyun/page",
+    "public/tags/l1uyun/index.xml",
+    "public/tags/l1uyun/index.html",
+    "public/tags/page/1",
+    "public/tags/l1uyun",
+    "public/tags/page",
+    "public/tags/index.xml",
     "content/posts/hello world.md",
     "archetypes/default.md",
-    "public/posts/2024/07/hello-world/index.html",
-    "public/posts/2024/07/hello-world",
-    "public/posts/2024/07",
-    "public/posts/2024",
     "README.md",
-    "archetypes/templates/commom.md",
-    "gitignore",
-    "新建 Text Document.txt",
     "content/posts/migrate-from-jekyll.md",
     "content/posts/migrate-from-jekyll.fr.md",
     "content/posts/l1uyun}.md",
@@ -153,7 +150,6 @@
     "content/posts/Untitled.md",
     "content/posts/Untitled 1.md",
     "content/posts/未命名.md",
-    "archetypes/templates",
     "content/about.md",
     "content/posts/goisforlovers.fr.md",
     "content/posts/hugoisforlovers.md",
@@ -173,10 +169,6 @@
     "FD-模板与提示/芝士附件/1c4a83ffa8ec95cf65d1494fb813c31e.png",
     "21-liuyun/日记/20240709.md",
     "49-时间戳笔记/202407090859_bilibili快速取关.md",
-    "01-collection/untitled.pdf",
-    "01-collection/tmp-untitled.html",
-    "01-collection/从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.pdf",
-    "FD-模板与提示/这是模板/读书笔记.md",
     "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125701.png",
