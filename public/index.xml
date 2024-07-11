@@ -1,1 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>l1uyun☁️</title><link>https://l1uyun.one/</link><description>Recent content on l1uyun☁️</description><generator>Hugo</generator><language>en</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Tue, 09 Jul 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://l1uyun.one/index.xml" rel="self" type="application/rss+xml"/><item><title>hello world</title><link>https://l1uyun.one/posts/2024/07/hello-world/</link><pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate><guid>https://l1uyun.one/posts/2024/07/hello-world/</guid><description>为啥这个不显示</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>l1uyun☁️</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on l1uyun☁️</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Thu, 11 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>about</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Thu, 11 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>目前还是空的</description>
+    </item>
+    <item>
+      <title>hello world</title>
+      <link>http://localhost:1313/posts/2024/07/hello-world/</link>
+      <pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024/07/hello-world/</guid>
+      <description>为啥这个不显示</description>
+    </item>
+  </channel>
+</rss>
