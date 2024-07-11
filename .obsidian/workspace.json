@@ -19,48 +19,8 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "ce131ff942801344",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/about.md",
-                "mode": "source",
-                "backlinks": false,
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "60c60b1cb701dd81",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/posts/hello world.md",
-                "mode": "source",
-                "backlinks": false,
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "98510c2fc11758eb",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "archetypes/templates/commom.md",
-                "mode": "source",
-                "backlinks": false,
-                "source": false
-              }
-            }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -118,7 +78,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "archetypes/templates/commom.md"
+                "file": "README.md"
               }
             }
           },
@@ -128,7 +88,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "archetypes/templates/commom.md",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -147,8 +107,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -167,8 +126,9 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "25ce6e10d94a623f",
+  "active": "afc0dfd2a0b94365",
   "lastOpenFiles": [
+    "archetypes/templates/commom.md",
     "public/about/index.html",
     "public/about",
     "public/series/page/1/index.html",
@@ -179,7 +139,6 @@
     "public/series",
     "public/posts/2024/07/hello-world/index.html",
     "public/posts/page/1/index.html",
-    "public/posts/2024/07/hello-world",
     "public/flags/4x3/ph.svg",
     "public/flags/4x3/pg.svg",
     "public/flags/4x3/pf.svg",
@@ -194,7 +153,6 @@
     "content/about.md",
     "README.md",
     "content/about/l1uyun.md",
-    "archetypes/templates/commom.md",
     "content/about/未命名.md",
     "archetypes/default.md",
     "content/posts/migrate-from-jekyll.md",
