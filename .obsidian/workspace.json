@@ -107,7 +107,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -126,19 +127,30 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "afc0dfd2a0b94365",
+  "active": "25ce6e10d94a623f",
   "lastOpenFiles": [
+    "public/posts/2024/07/hello-world/index.html",
+    "public/posts/page/1/index.html",
+    "public/posts/2024/07/hello-world",
+    "public/posts/page/1",
+    "public/posts/2024/07",
+    "public/posts/index.xml",
+    "public/posts/page",
+    "public/posts/index.html",
+    "public/posts/2024",
+    "public/posts",
+    "public/categories/page/1/index.html",
+    "public/flags/4x3/mx.svg",
+    "public/flags/4x3/mw.svg",
+    "public/flags/4x3/mv.svg",
+    "public/flags/4x3/mu.svg",
+    "public/flags/4x3/mt.svg",
+    "public/flags/4x3/ms.svg",
+    "public/flags/4x3/mr.svg",
+    "public/flags/4x3/mq.svg",
+    "public/flags/4x3/mp.svg",
+    "public/flags/4x3/mo.svg",
     "archetypes/templates/commom.md",
-    "public/tags/l1uyun/page/1/index.html",
-    "public/tags/l1uyun/page/1",
-    "public/tags/page/1/index.html",
-    "public/tags/l1uyun/page",
-    "public/tags/l1uyun/index.xml",
-    "public/tags/l1uyun/index.html",
-    "public/tags/page/1",
-    "public/tags/l1uyun",
-    "public/tags/page",
-    "public/tags/index.xml",
     "content/posts/hello world.md",
     "archetypes/default.md",
     "README.md",
@@ -160,18 +172,8 @@
     "49-时间戳笔记/202407091529_小学期.md",
     "53-project/daily_linux/2024_07_07_curl.md",
     "49-时间戳笔记/202407052109_todo.md",
-    "FD-模板与提示/芝士附件/homepage_image_1.png",
-    "FD-模板与提示/芝士附件/Pasted image 20240709103340.png",
-    "FD-模板与提示/芝士附件/202407052109_todo_image_1.png",
-    "FD-模板与提示/芝士附件/tmp1720492334199_202407052109_todo_image_1.png",
     "49-时间戳笔记/Pasted.md",
-    "FD-模板与提示/芝士附件/tmp1720492156125_202407052109_todo_image_1.png",
-    "FD-模板与提示/芝士附件/1c4a83ffa8ec95cf65d1494fb813c31e.png",
     "21-liuyun/日记/20240709.md",
-    "49-时间戳笔记/202407090859_bilibili快速取关.md",
-    "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
-    "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
-    "FD-模板与提示/芝士附件/Pasted image 20240707125701.png",
-    "FD-模板与提示/芝士附件/Pasted image 20240707093408.png"
+    "49-时间戳笔记/202407090859_bilibili快速取关.md"
   ]
 }
