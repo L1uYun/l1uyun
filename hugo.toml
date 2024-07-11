@@ -21,6 +21,7 @@ dataDir      = "data"  # 数据目录的位置
 layoutDir    = "layouts"  # 布局目录的位置
 publishDir   = "public"  # 发布目录的位置
 
+ignoreFiles = ["archetypes/"]  
 buildDrafts  = false  # 是否构建草稿
 buildFuture  = false  # 是否构建未来发布的内容
 buildExpired = false  # 是否构建已过期的内容
