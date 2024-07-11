@@ -19,8 +19,35 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "68b9e47b1e63f0e6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/about/l1uyun.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "98510c2fc11758eb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "archetypes/templates/commom.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -78,7 +105,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "content/about/l1uyun.md"
               }
             }
           },
@@ -88,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "content/about/l1uyun.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,8 +154,13 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "25ce6e10d94a623f",
+  "active": "68b9e47b1e63f0e6",
   "lastOpenFiles": [
+    "archetypes/templates/commom.md",
+    "content/about/l1uyun.md",
+    "README.md",
+    "content/about/未命名.md",
+    "content/about",
     "public/posts/2024/07/hello-world/index.html",
     "public/posts/page/1/index.html",
     "public/posts/2024/07/hello-world",
@@ -138,8 +170,6 @@
     "public/posts/page",
     "public/posts/index.html",
     "public/posts/2024",
-    "public/posts",
-    "public/categories/page/1/index.html",
     "public/flags/4x3/mx.svg",
     "public/flags/4x3/mw.svg",
     "public/flags/4x3/mv.svg",
@@ -150,10 +180,8 @@
     "public/flags/4x3/mq.svg",
     "public/flags/4x3/mp.svg",
     "public/flags/4x3/mo.svg",
-    "archetypes/templates/commom.md",
     "content/posts/hello world.md",
     "archetypes/default.md",
-    "README.md",
     "content/posts/migrate-from-jekyll.md",
     "content/posts/migrate-from-jekyll.fr.md",
     "content/posts/l1uyun}.md",
@@ -173,7 +201,6 @@
     "53-project/daily_linux/2024_07_07_curl.md",
     "49-时间戳笔记/202407052109_todo.md",
     "49-时间戳笔记/Pasted.md",
-    "21-liuyun/日记/20240709.md",
-    "49-时间戳笔记/202407090859_bilibili快速取关.md"
+    "21-liuyun/日记/20240709.md"
   ]
 }

@@ -5,7 +5,7 @@
       "name": "notes",
       "type": "Template",
       "command": false,
-      "templatePath": "content/templates/commom.md",
+      "templatePath": "archetypes/templates/commom",
       "fileNameFormat": {
         "enabled": true,
         "format": "{{name}}"
