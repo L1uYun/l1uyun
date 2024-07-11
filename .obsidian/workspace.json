@@ -60,7 +60,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -118,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/posts/hello world.md"
+                "file": "archetypes/templates/commom.md"
               }
             }
           },
@@ -128,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/posts/hello world.md",
+                "file": "archetypes/templates/commom.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -167,8 +167,9 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "60c60b1cb701dd81",
+  "active": "98510c2fc11758eb",
   "lastOpenFiles": [
+    "content/posts/hello world.md",
     "public/js/view-image.min.js",
     "themes/hello-friend-ng/static/js/view-image.min.js",
     "public/js",
@@ -181,9 +182,7 @@
     "public/posts/2024/07/about",
     "README.md",
     "public/posts/1/01/tp.file.title/index.html",
-    "public/posts/1/01/tp.file.title",
     "content/about/l1uyun.md",
-    "content/posts/hello world.md",
     "archetypes/templates/commom.md",
     "content/about/未命名.md",
     "public/flags/4x3/mx.svg",
