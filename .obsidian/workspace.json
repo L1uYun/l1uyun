@@ -115,7 +115,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
@@ -134,8 +135,12 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "25ce6e10d94a623f",
+  "active": "a1b3bc36a84bbe4f",
   "lastOpenFiles": [
+    "public/posts/2024/07/hello-world/index.html",
+    "public/posts/2024/07/hello-world",
+    "public/posts/2024/07",
+    "public/posts/2024",
     "README.md",
     "content/posts/hello world.md",
     "templates/commom.md",
@@ -177,9 +182,6 @@
     "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125701.png",
-    "FD-模板与提示/芝士附件/Pasted image 20240707093408.png",
-    "FF-book/mind/决策与理性_基思·斯坦诺维奇.pdf",
-    "FF-book/sec/Sed and Awk 101 Hacks -中文版 (无) (Z-Library).pdf",
-    "FF-book/sec/awk+sed(1).pdf"
+    "FD-模板与提示/芝士附件/Pasted image 20240707093408.png"
   ]
 }
