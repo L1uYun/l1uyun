@@ -19,8 +19,17 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "6a5de7ff431f4aae",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -77,9 +86,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "content/posts/hello world.md"
-              }
+              "state": {}
             }
           },
           {
@@ -88,7 +95,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/posts/hello world.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,10 +133,10 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "a1b3bc36a84bbe4f",
+  "active": "6a5de7ff431f4aae",
   "lastOpenFiles": [
-    "archetypes/default.md",
     "content/posts/hello world.md",
+    "archetypes/default.md",
     "public/posts/2024/07/hello-world/index.html",
     "public/posts/2024/07/hello-world",
     "public/posts/2024/07",
