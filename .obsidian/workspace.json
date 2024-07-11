@@ -154,8 +154,10 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "f24a5c245c125f1f",
+  "active": "a1b3bc36a84bbe4f",
   "lastOpenFiles": [
+    "public/js/view-image.min.js",
+    "public/js",
     "content/posts/hello world.md",
     "content/about.md",
     "README.md",
@@ -169,7 +171,6 @@
     "public/series/index.xml",
     "public/series",
     "public/posts/2024/07/hello-world/index.html",
-    "public/posts/page/1/index.html",
     "public/flags/4x3/ph.svg",
     "public/flags/4x3/pg.svg",
     "public/flags/4x3/pf.svg",
