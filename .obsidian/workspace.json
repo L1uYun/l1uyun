@@ -19,14 +19,6 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "311e67e34de161db",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
           }
         ]
       }
@@ -86,7 +78,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/posts/hello world.md"
+                "file": "archetypes/default.md"
               }
             }
           },
@@ -96,7 +88,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/posts/hello world.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,15 +126,15 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "a1b3bc36a84bbe4f",
+  "active": "25ce6e10d94a623f",
   "lastOpenFiles": [
+    "content/posts/hello world.md",
     "public/posts/2024/07/hello-world/index.html",
     "public/posts/2024/07/hello-world",
     "public/posts/2024/07",
     "public/posts/2024",
     "README.md",
-    "content/posts/hello world.md",
-    "templates/commom.md",
+    "archetypes/templates/commom.md",
     "gitignore",
     "新建 Text Document.txt",
     "content/posts/migrate-from-jekyll.md",
@@ -154,7 +145,7 @@
     "content/posts/Untitled.md",
     "content/posts/Untitled 1.md",
     "content/posts/未命名.md",
-    "templates",
+    "archetypes/templates",
     "content/about.md",
     "content/posts/goisforlovers.fr.md",
     "content/posts/hugoisforlovers.md",
@@ -177,7 +168,6 @@
     "01-collection/untitled.pdf",
     "01-collection/tmp-untitled.html",
     "01-collection/从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.pdf",
-    "01-collection/tmp-从零开始搭建你的免费图床系统 （Cloudflare R2 + WebP Cloud + PicGo）.html",
     "FD-模板与提示/这是模板/读书笔记.md",
     "FD-模板与提示/芝士附件/Pasted image 20240707201856.png",
     "FD-模板与提示/芝士附件/Pasted image 20240707125707.png",
