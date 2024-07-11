@@ -78,7 +78,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "archetypes/default.md"
+                "file": "content/posts/hello world.md"
               }
             }
           },
@@ -88,6 +88,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "content/posts/hello world.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,8 +127,9 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "25ce6e10d94a623f",
+  "active": "a1b3bc36a84bbe4f",
   "lastOpenFiles": [
+    "archetypes/default.md",
     "content/posts/hello world.md",
     "public/posts/2024/07/hello-world/index.html",
     "public/posts/2024/07/hello-world",
