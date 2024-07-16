@@ -5,9 +5,9 @@ title: oracle-padding-attack
 tags:
   - sec
 created: 2024-07-16T09:48
-updated: 2024-07-16T21:04
+updated: 2024-07-16T22:17
 ---
-在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没遇见过,学习一下
+在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没见过,学习一下
 ## 前置知识
 ### 块密码
 在分组密码加密领域，数据一次加密一个块，不同算法的块长度各不相同。
