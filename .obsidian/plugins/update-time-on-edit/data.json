@@ -852,6 +852,22 @@
     "content/posts/hello world.md": "4ff0ea6b6a3f92163970e066701627c556f8adc1480e45124db3cfb630a80358",
     "archetypes/templates/commom.md": "09ebc972fe72454c41a0899d9b7f4378c2dfbc2541fa7ddea6fe3f0c4b27e26e",
     "content/about.md": "67e724654ffeb0959d659f9e723281e228ea3f16345398d245fb1da5fb8c65c2",
-    "content/posts/oracle-padding-attack.md": "05a6abe0cc94df2d67bb20ff4d9831fe33b1eac0569099b7c052a9f27bc5fbea"
+    "content/posts/oracle-padding-attack.md": "05a6abe0cc94df2d67bb20ff4d9831fe33b1eac0569099b7c052a9f27bc5fbea",
+    "themes/hello-friend-ng/CHANGELOG.md": "891f1b48c12eb43cc3cc8f7656d8afd5ecaa8f03cb8995b02ac87192fde0a2f0",
+    "themes/hello-friend-ng/CONTRIBUTING.md": "1afccd5ede4282ac3f39205a50a198967b0d461ecebdb6e0cba0a753fa35d32f",
+    "themes/hello-friend-ng/LICENSE.md": "4ad23de285992413df93b0ec29b8b14babeaf143c8d1ab0ccd08a7982aec727b",
+    "themes/hello-friend-ng/README.md": "6fdb3d54745beaea8368979b1a8710f31265788be3499ff342c2bebaa5becf34",
+    "themes/hello-friend-ng/docs/config.md": "cd780a1899560c2535ca58d6402f903ffcd19c56bc299212c5e84cba811de745",
+    "themes/hello-friend-ng/docs/favicons.md": "f9f532ff60c97a7962372eb336f4018919a1cc548cfb3aa4f1eca7743d776116",
+    "themes/hello-friend-ng/docs/svgs.md": "710107e7b7a2d6c59e05875f254d379c57b8fbeaa5b64451d2543bbb3765bae3",
+    "themes/hello-friend-ng/exampleSite/content/about.md": "c1d41834c74824656f08c6264773307169d26e6d7165d2230a735783f1f4e7fd",
+    "themes/hello-friend-ng/exampleSite/content/posts/creating-a-new-theme.fr.md": "d3c577f165c822d1cc07b980c61efc962ed35d1e5918201ff190ce9a5fd5f2ce",
+    "themes/hello-friend-ng/exampleSite/content/posts/creating-a-new-theme.md": "4fb3066144456cc0bfad23d46c7f77e33378e953dd712e4abd2747c08109f819",
+    "themes/hello-friend-ng/exampleSite/content/posts/goisforlovers.fr.md": "4a0e6f4eaa26b28881b2565e6a974d26d7b458c6dcc62125d7e476c7a31d6a74",
+    "themes/hello-friend-ng/exampleSite/content/posts/goisforlovers.md": "722e36790bd08e0a07ea8b26e6dd2cda2341366b3f97c9a6b8742bfec765f912",
+    "themes/hello-friend-ng/exampleSite/content/posts/hugoisforlovers.fr.md": "e1a1b804648bb4987da8c196e536b8a2786265ef24646770076cd3ba49b887c9",
+    "themes/hello-friend-ng/exampleSite/content/posts/hugoisforlovers.md": "cde7ca81a5e5515f2442456207d9b2a27c63395cec51c2e03fc9ba5fabf702d4",
+    "themes/hello-friend-ng/exampleSite/content/posts/migrate-from-jekyll.fr.md": "f10bd54694e595ebfd10a118218de549c9bc747f98416a06214013d8b2d7691f",
+    "themes/hello-friend-ng/exampleSite/content/posts/migrate-from-jekyll.md": "997f80a103cdd7adb0f70d66654d65c55f25fe5635785dbe06f7957a6f27353b"
   }
 }
