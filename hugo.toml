@@ -69,7 +69,7 @@ disableHugoGeneratorInject = false  # 启用Hugo生成器注入
   enableSharingButtons = true  # 启用分享按钮
   enableGlobalLanguageMenu = true  # 启用全局语言菜单
 
-  customCSS = ['/css/custom.css']  # 自定义CSS文件
+  customCSS = ['/css/custom.css','/css/m.css']  # 自定义CSS文件
   customJS  = []  # 自定义JS文件
 
   justifyContent = false  # 设置文本对齐方式
