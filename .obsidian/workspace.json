@@ -21,7 +21,7 @@
             }
           },
           {
-            "id": "7ab1f0d5fe0b8bbf",
+            "id": "6a880bd7243943c8",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -32,22 +32,9 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "f24a5c245c125f1f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/about.md",
-                "mode": "source",
-                "backlinks": false,
-                "source": false
-              }
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -105,7 +92,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "content/about.md"
+                "file": "content/posts/hello world.md"
               }
             }
           },
@@ -115,7 +102,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "content/about.md",
+                "file": "content/posts/hello world.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -134,8 +121,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -154,13 +140,13 @@
       "zk-prefixer:创建时间戳笔记": true
     }
   },
-  "active": "a1b3bc36a84bbe4f",
+  "active": "6a880bd7243943c8",
   "lastOpenFiles": [
-    "public/js/view-image.min.js",
-    "public/js",
+    "README.md",
     "content/posts/hello world.md",
     "content/about.md",
-    "README.md",
+    "public/js/view-image.min.js",
+    "public/js",
     "archetypes/templates/commom.md",
     "public/about/index.html",
     "public/about",
@@ -170,7 +156,6 @@
     "public/series/index.html",
     "public/series/index.xml",
     "public/series",
-    "public/posts/2024/07/hello-world/index.html",
     "public/flags/4x3/ph.svg",
     "public/flags/4x3/pg.svg",
     "public/flags/4x3/pf.svg",
