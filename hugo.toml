@@ -108,6 +108,11 @@ disableHugoGeneratorInject = false  # 启用Hugo生成器注入
      theme      = "github-light"  # Utteranc.es主题
 
   [[params.social]]
+    name = "twitter"
+    url  = "https://twitter.com/ftliuyun"
+
+
+  [[params.social]]
     name = "bilibili"
     url  = "https://space.bilibili.com/661621630"
 
