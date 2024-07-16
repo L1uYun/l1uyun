@@ -3,7 +3,7 @@ name: oracle-padding-attack
 tags:
   - sec
 created: 2024-07-16T09:48
-updated: 2024-07-16T18:45
+updated: 2024-07-16T18:53
 ---
 # oracle-padding-attack
 在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没遇见过,学习一下
@@ -46,7 +46,16 @@ Counter (CTR) Mode
 首先将最后一块密文C\[-1]\,使用解密算法解密,得到伪明文M\[-1\],然后将伪明文M\[-1\]与倒数第二块密文C\[-2\]进行异或,得到明文P\[-1\]
 先解密,然后再异或
 ![](https://img.l1uyun.one/202407160948_oracle-padding-attack_image_5.png)
+### 异或运算
+异或操作具有逆运算特性,即已知结果和一个操作数,就能退出来另外一个操作数
+```
+A^B=C    
+在等号两边同时异或一个B
+=>  A=C^B
 
+在等号两边同时异或一个B
+=>  B=C^A
+```
 ## 漏洞检测
 当密文值被修改之后,服务器不能正确的恢复明文时,会有报错信息回显出来
 ![](https://img.l1uyun.one/202407160948_oracle-padding-attack_image_6.png)
