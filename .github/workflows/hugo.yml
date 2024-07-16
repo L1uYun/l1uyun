@@ -13,7 +13,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
               with:
-                  submodules: true
+                  submodules: false
                   fetch-depth: 0
                   ref: main # 这里选择你触发部署的分支！默认是 master
 
