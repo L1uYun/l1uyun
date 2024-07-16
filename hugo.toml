@@ -95,7 +95,7 @@ disableHugoGeneratorInject = false  # 启用Hugo生成器注入
     logoMark     = ">"  # Logo标记
     logoText     = "$ cd /home/l1uyun☁️ "  # Logo文本
     logoHomeLink = "/"  # Logo主页链接
-    logoCursorColor    = "#428433"  # Logo光标颜色
+    logoCursorColor    = "#87CEEB"  # Logo光标颜色
 
   [params.portrait]
     maxWidth = "690px"  # 头像最大宽度
