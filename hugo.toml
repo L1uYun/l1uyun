@@ -4,8 +4,8 @@ languageCode = "zh-cn"
 theme = "hello-friend-ng"
 
 PygmentsCodeFences = true  # 启用代码块的Pygments高亮
-PygmentsStyle = "monokai"
-# PygmentsStyle = "github-dark"  # 设置代码高亮的样式
+# PygmentsStyle = "monokai"
+PygmentsStyle = "github-dark"  # 设置代码高亮的样式
 paginate  = 14  # 每页显示的文章数量
 rssLimit  = 10  # RSS订阅中最多显示的文章数量
 copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."  # RSS模板中使用的版权声明
