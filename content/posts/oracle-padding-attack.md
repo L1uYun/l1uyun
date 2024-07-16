@@ -3,9 +3,10 @@ name: oracle-padding-attack
 tags:
   - sec
 created: 2024-07-16T09:48
-updated: 2024-07-16T18:41
+updated: 2024-07-16T18:43
 ---
 # oracle-padding-attack
+在完成tryhackme的New-York-Flankees靶机的时候遇见了这个攻击方式
 ## 前置知识
 ### 块密码
 在分组密码加密领域，数据一次加密一个块，不同算法的块长度各不相同。
@@ -139,9 +140,10 @@ M2[-1] 1111 1111
 C1[-1] 1111 1110 
 0x01,填充成功
 ```
-我现在的理解是这样的枚举机制,确保了不会提前得到原本的填充值
+我现在的理解是这样的机制,确保了不会提前得到原本的填充值
 # 一句话总结
 通过修改IV值的末尾字节,来控制解密之后的明文的末尾字节为填充字节,从而获得中间值,进而获取明文
 
 # 引用
 [Oracle Padding Attack](https://medium.com/@masjadaan/oracle-padding-attack-a61369993c86)
+[hacktricks_Padding Oracle](https://book.hacktricks.xyz/crypto-and-stego/padding-oracle-priv)
