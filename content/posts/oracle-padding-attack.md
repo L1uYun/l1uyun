@@ -1,5 +1,4 @@
 ---
-name: oracle-padding-attack
 date: 2024-07-16
 title: oracle-padding-attack
 tags:
