@@ -3,8 +3,6 @@ date: 2024-07-25-19-00
 title: javasec-sql注入
 tags:
   - sec/javasec
-created: 2024-07-09T16:26
-updated: 2024-07-18T11:45
 ---
 # javasec-sql注入
 ## 前置知识
