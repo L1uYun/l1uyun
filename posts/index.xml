@@ -528,10 +528,10 @@ MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译�
 <h3 id="填充方案">填充方案</h3>
 <p>如前所述，分组密码采用固定大小的块，当明文不是块大小的倍数时需要填充。存在多种填充技术，但在本次攻击中，我们的重点是 PKCS#7。</p>
 <h4 id="pkcs7">PKCS#7</h4>
-<p>公钥加密标准 #7 (PKCS#7) 是一种广泛认可的加密标准，它定义了一种填充方案，用于在需要固定块大小的块密码模式中加密之前填充最后一个明文块。</p>
-<p>考虑一个情况,块大小为8,需要填充的单词为Exploit,attack,cyber,hack</p>
-<p>对于Exploit,需要填充一个字节,所以填充0x01</p>
-<p>对于attack,需要填充两个字节,所以填充0x02,0x02<br>
+<p>公钥加密标准 #7 (PKCS#7) 是一种广泛认可的加密标准，它定义了一种填充方案，用于在需要固定块大小的块密码模式中加密之前填充最后一个明文块。<br>
+考虑一个情况,块大小为8,需要填充的单词为Exploit,attack,cyber,hack<br>
+对于Exploit,需要填充一个字节,所以填充0x01<br>
+对于attack,需要填充两个字节,所以填充0x02,0x02<br>
 <img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_2.png"><br>
 另一种情况,正好以及占据了8个字节,就会另起一个块<br>
 <img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_3.png"></p>
