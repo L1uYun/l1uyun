@@ -6,8 +6,545 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Tue, 16 Jul 2024 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Fri, 26 Jul 2024 00:00:00 +0000</lastBuildDate>
         <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>javasec-xxe</title>
+            <link>http://localhost:1313/posts/2024/07/javasec-xxe/</link>
+            <pubDate>Fri, 26 Jul 2024 00:00:00 +0000</pubDate>
+            
+            <guid>http://localhost:1313/posts/2024/07/javasec-xxe/</guid>
+            <description>xxe注入 前置知识 XML文档 要了解XXE漏洞，那么先得了解一下有关XML的基础知识。 XML是一种非常流行的标记语言，在1990年代后期首次标</description>
+            <content type="html"><![CDATA[<h1 id="xxe注入">xxe注入</h1>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="xml文档">XML文档</h3>
+<p>要了解XXE漏洞，那么先得了解一下有关XML的基础知识。</p>
+<p>XML是一种非常流行的标记语言，在1990年代后期首次标准化，并被无数的软件项目所采用。它用于配置文件，文档格式（如OOXML，ODF，PDF，RSS，&hellip;），图像格式（SVG，EXIF标题）和网络协议（WebDAV，CalDAV，XMLRPC，SOAP，XMPP，SAML， XACML，&hellip;）</p>
+<h4 id="文档结构">文档结构</h4>
+<p>XML主要由7个部分组成,</p>
+<ul>
+<li>文档声明</li>
+<li>标签/元素</li>
+<li>属性</li>
+<li>注释</li>
+<li>实体字符</li>
+<li>CDATA 字符数据区。CDATA 指的是不应由 XML 解析器进行解析的文本数据（Unparsed Character Data）。CDATA 部分中的所有内容都会被解析器忽略。CDATA 部分由 <code>**</code> 结束，某些文本比如 JavaScript 代码，包含大量 “&lt;” 或 “&amp;” 字符。为了避免错误，可以将脚本代码定义为 CDATA。</li>
+<li>处理指令,</li>
+</ul>
+<p>一个标准的xml文件为</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">&lt;!-- XML文档声明；同时也是一个处理指令,用于声明 XML 文档的版本和编码方式。&lt;? xxx ?&gt; 就是处理指令的格式--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;ISO-8859-1&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">&lt;!-- bookstore根元素、book子元素--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#7ee787">&lt;bookstore&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8b949e;font-style:italic">&lt;!-- category、lang都是属性--&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;book</span> category=<span style="color:#a5d6ff">&#34;COOKING&#34;</span><span style="color:#7ee787">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;title</span> lang=<span style="color:#a5d6ff">&#34;en&#34;</span><span style="color:#7ee787">&gt;</span>Everyday Italian<span style="color:#7ee787">&lt;/title&gt;</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#8b949e;font-style:italic">&lt;!-- &amp;lt;实体字符 是一个预定义的实体引用，这里也可以引用dtd中定义的实体，以 &amp; 开头, 以;结尾--&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;author&gt;</span>Giada De Laurentiis<span style="color:#ffa657">&amp;lt;</span><span style="color:#7ee787">&lt;/author&gt;</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;year&gt;</span>2005<span style="color:#7ee787">&lt;/year&gt;</span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;price&gt;</span>30.00<span style="color:#7ee787">&lt;/price&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8b949e;font-style:italic">&lt;!-- script这里是CDATA，不能被xml解析器解析，可以被JavaScript解析--&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;script&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;![CDATA[
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">   function matchwo(a,b)
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">   {
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">    if (a &lt; b &amp;&amp; a &lt; 0) then
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">      {return 1;}
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">    else
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">      {return 0;}
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">   }
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">   ]]&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;/script&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;/book&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#7ee787">&lt;/bookstore&gt;</span>
+</span></span></code></pre></div><h4 id="dtd">DTD</h4>
+<p>DTD（Document Type Definition）是用来定义 XML 文档的结构和合法元素的集合。
+DTD 定义了 XML 文档中可以出现的元素、属性和它们的顺序，以确保 XML 数据的格式和结构符合预定义的规则。
+DTD 可以嵌入到 XML 文档中，也可以外部定义并引用。</p>
+<p>DOCTYPE是DTD的声明
+!ELEMENT&gt; 声明用于定义 XML 文档中元素的结构和内容模型。它指定了元素的名称及其允许的子元素、文本内容或其他结构。
+ENTITY是实体的声明，所谓实体可以理解为变量
+SYSTEM、PUBLIC是外部资源的申请</p>
+<p>从两个角度可以把XML分为两类共4个类型：
+（内部实体、外部实体）
+（通用实体、参数实体）
+1)内部实体
+所谓内部实体是指在一个实体中定义的另一个实体，也就是嵌套定义。
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_1.png">
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_2.png">
+使用&amp;xxe对上面定义的xxe实体进行了引用，到时候输出的时候&amp;xxe就会被“test”替换。</p>
+<p>在XML内部声明DTD:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!DOCTYPE note [
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">  &lt;!ELEMENT note (to,from,heading,body)&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ELEMENT to      (#PCDATA)&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ELEMENT from    (#PCDATA)&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ELEMENT message (#PCDATA)&gt;</span>
+</span></span><span style="display:flex;"><span>]&gt;
+</span></span><span style="display:flex;"><span><span style="color:#7ee787">&lt;note&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;to&gt;</span>George<span style="color:#7ee787">&lt;/to&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;from&gt;</span>John<span style="color:#7ee787">&lt;/from&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;message&gt;</span>Reminder<span style="color:#7ee787">&lt;/message&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#7ee787">&lt;/note&gt;</span>
+</span></span></code></pre></div><p>2）外部实体
+外部实体表示外部文件的内容，用 SYSTEM 关键词表示，通常使用下面的格式来引用</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY entityName SYSTEM &#34;fileName&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY example SYSTEM &#34;/etc/passwd&#34;&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY entityName PUBLIC &#34;publicID&#34; &#34;fileName&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY example PUBLIC &#34;-//W3C//DTD HTML 4.01 Transitional//EN&#34; &#34;html4-transitional.dtd&#34;&gt;</span>
+</span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_3.png">
+有些XML文档包含system标识符定义的“实体”，这些文档会在DOCTYPE头部标签中呈现。这些定义的’实体’能够访问本地或者远程的内容。
+假如 SYSTEM 后面的内容可以被攻击者控制，那么攻击者就可以随意替换为其他内容，从而读取服务器本地文件（file:///etc/passwd）或者远程文件（http://www.baidu.com/abc.txt）。</p>
+<p>3）通用实体
+用”&amp;实体名“引用的实体，在DTD中定义，在XML文档中引用。
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_4.png"></p>
+<p>4）参数实体
+使用<code>% 实体名</code>（这里空格不能少）在 DTD 中定义，并且只能在 DTD 中使用<code>%实体名;</code>引用
+只有在DTD文件中，参数实体的声明才能引用其他实体
+和通用实体一样，参数实体也可以外部引用
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_5.png"></p>
+<h3 id="xxe">XXE</h3>
+<p>XXE（XML External Entity Injection，XML 外部实体注入）是一种安全漏洞，通常发生在解析 XML 数据时。攻击者通过在 XML 文档中注入外部实体来读取本地文件、发送数据到远程服务器，甚至执行其他恶意操作。
+XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全问题。</p>
+<p>XXE漏洞之所以名为外部实体漏洞，就是因为问题主要出自于外部资源的申请以及外部实体的引用这部分特性中。我们从XXE的全称（XML外部实体注入）可以看出，XXE也是一种XML注入，只不过注入的是XML外部实体罢了。
+<img alt="|500" src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_6.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;ISO-8859-1&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!DOCTYPE foo [  
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">  &lt;!ELEMENT foo ANY &gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY xxe SYSTEM &#34;file:///etc/passwd&#34; &gt;</span>]&gt;<span style="color:#7ee787">&lt;foo&gt;</span><span style="color:#ffa657">&amp;xxe;</span><span style="color:#7ee787">&lt;/foo&gt;</span>
+</span></span></code></pre></div><p>在这个示例中，<code>&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt; </code>定义了一个外部实体 xxe，指向本地文件 /etc/passwd。
+当 XML 解析器解析这个 XML 数据时，它会尝试读取 /etc/passwd 文件的内容并将其插入到 <!-- raw HTML omitted -->&amp;xxe;<!-- raw HTML omitted --> 标签中。</p>
+<h3 id="java-解析xml的四种方式">Java 解析XML的四种方式</h3>
+<ol>
+<li>
+<p>DOM（Document Object Model）解析</p>
+<ul>
+<li>DocumentBuilder: 用于解析 XML 数据并构建 DOM 文档对象模型。属于 JAXP（Java API for XML Processing）。</li>
+<li>DOMParser: 一般指 DOM 解析器的实现（如 org.w3c.dom.DocumentBuilder）。它用于将 XML 数据解析成 DOM 文档结构。</li>
+</ul>
+</li>
+<li>
+<p>SAX（Simple API for XML）解析</p>
+<ul>
+<li>SAXParser: SAX 解析器，用于逐行读取 XML 数据，并触发相应的事件。属于 JAXP（Java API for XML Processing）。</li>
+<li>Unmarshaller: JAXB 中的组件，用于将 XML 数据转换为 Java 对象。虽然它在 JAXB 中不直接属于 SAX，但它可以配置 SAX 解析器来处理 XML 数据。</li>
+</ul>
+</li>
+<li>
+<p>JDOM 解析</p>
+<ul>
+<li>SAXBuilder: JDOM 提供的一个类，用于通过 SAX 解析器构建 JDOM 文档对象模型。JDOM 是一个独立的 XML 处理库，与 DOM4J 和 JAXB 不同。</li>
+</ul>
+</li>
+<li>
+<p>DOM4J（Document Object Model for Java）解析</p>
+<ul>
+<li>SAXReader: DOM4J 提供的一个类，用于使用 SAX 解析 XML 数据。实际上，SAXReader 是 DOM4J 的一部分，而不是独立的 SAX 解析器。</li>
+</ul>
+</li>
+</ol>
+<h2 id="复现平台">复现平台</h2>
+<p><a href="https://github.com/j3ers3/Hello-Java-Sec">Hello-Java-Sec</a>
+<a href="https://github.com/bewhale/JavaSec">JavaSec</a></p>
+<h2 id="漏洞分析">漏洞分析</h2>
+<p>按照这两个平台提供的资源,来看看具体的漏洞代码</p>
+<h3 id="xmlreader">XMLReader</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * XMLReader 是一个接口，用于解析 XML 文档。它是 SAX (Simple API for XML) 的核心组件之一。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 它提供了对 XML 文档的逐行读取和解析功能，并将事件传递给相应的处理器。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 使用 XMLReader 时，需要注意安全问题，例如防止 XML 外部实体注入攻击。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> */</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">// payload: &lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;&lt;!DOCTYPE test [&lt;!ENTITY xxe SYSTEM &#34;dsm6kqkg.dnslog.pw&#34;&gt;]&gt;&lt;root&gt;&amp;xxe;&lt;/root&gt;</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">XMLReader</span>(<span style="color:#d2a8ff;font-weight:bold">@RequestBody</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>content)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">try</span><span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>XMLReader<span style="color:#6e7681"> </span>xmlReader<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>XMLReaderFactory.createXMLReader();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#8b949e;font-style:italic">// 修复：禁用外部实体</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#8b949e;font-style:italic">// xmlReader.setFeature(&#34;http://apache.org/xml/features/disallow-doctype-decl&#34;, true);</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>xmlReader.parse(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>InputSource(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>StringReader(content)));<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;XMLReader XXE&#34;</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>}<span style="color:#6e7681"> </span><span style="color:#ff7b72">catch</span><span style="color:#6e7681"> </span>(Exception<span style="color:#6e7681"> </span>e)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>e.toString();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_2.png">
+修复方法就是上面代码中的,setFeature,禁用外部实体</p>
+<h3 id="saxparser">SAXParser</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * javax.xml.parsers.SAXParser 是 XMLReader 的替代品，它提供了更多的安全措施，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 例如默认禁用 DTD 和外部实体的声明。如果需要使用 DTD 或外部实体，可以手动启用它们，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 并使用相应的安全措施。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> */</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@ApiOperation</span>(value<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;vul：SAXParser&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@RequestMapping</span>(value<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;/SAXParser&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">SAXParser</span>(<span style="color:#d2a8ff;font-weight:bold">@RequestParam</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>content)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">	</span><span style="color:#ff7b72">try</span><span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span>SAXParserFactory<span style="color:#6e7681"> </span>factory<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>SAXParserFactory.newInstance();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span>SAXParser<span style="color:#6e7681"> </span>parser<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>factory.newSAXParser();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span>parser.parse(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>InputSource(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>StringReader(content)),<span style="color:#6e7681"> </span><span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>DefaultHandler());<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;SAXParser XXE&#34;</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">	</span>}<span style="color:#6e7681"> </span><span style="color:#ff7b72">catch</span><span style="color:#6e7681"> </span>(Exception<span style="color:#6e7681"> </span>e)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>e.toString();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">	</span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><p>会有报错信息,但是dnslog弹成功了
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_7.png">
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_8.png"></p>
+<h3 id="saxreader">SAXReader</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * SAXReader 是一个用于读取和解析 XML 文档的类。它基于 SAX (Simple API for XML) 实现，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 提供了简单的 API 以便快速解析 XML。SAXReader 通常用于处理大规模 XML 数据流。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 在使用 SAXReader 时，需要采取相应的安全措施来防止 XML 外部实体注入等攻击。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> */</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@ApiOperation</span>(value<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;vul：SAXReader&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@RequestMapping</span>(value<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;/SAXReader&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">SAXReader</span>(<span style="color:#d2a8ff;font-weight:bold">@RequestParam</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>content)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">	</span><span style="color:#ff7b72">try</span><span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span>SAXReader<span style="color:#6e7681"> </span>sax<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>SAXReader();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span><span style="color:#8b949e;font-style:italic">// 修复：禁用外部实体</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span><span style="color:#8b949e;font-style:italic">// sax.setFeature(&#34;http://apache.org/xml/features/disallow-doctype-decl&#34;, true);</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span>sax.read(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>InputSource(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>StringReader(content)));<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;SAXReader XXE&#34;</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">	</span>}<span style="color:#6e7681"> </span><span style="color:#ff7b72">catch</span><span style="color:#6e7681"> </span>(Exception<span style="color:#6e7681"> </span>e)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>e.toString();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">	</span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="saxbuilder">SAXBuilder</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * SAXBuilder 是一个用于构建 JDOM (Java Document Object Model) 文档的类。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 它基于 SAX 解析器，将 XML 数据解析为 JDOM 文档对象。SAXBuilder 提供了易于使用的 API，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 使得在内存中操作 XML 文档更加方便。在使用 SAXBuilder 时，应确保配置正确的安全设置，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 以防止潜在的 XML 处理漏洞。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> */</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@RequestMapping</span>(value<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;/SAXBuilder&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">SAXBuilder</span>(<span style="color:#d2a8ff;font-weight:bold">@RequestBody</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>content)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">try</span><span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>SAXBuilder<span style="color:#6e7681"> </span>saxbuilder<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>SAXBuilder();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#8b949e;font-style:italic">// 修复: saxbuilder.setFeature(&#34;http://apache.org/xml/features/disallow-doctype-decl&#34;, true);</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>saxbuilder.build(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>InputSource(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>StringReader(content)));<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;SAXBuilder XXE&#34;</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>}<span style="color:#6e7681"> </span><span style="color:#ff7b72">catch</span><span style="color:#6e7681"> </span>(Exception<span style="color:#6e7681"> </span>e)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>e.toString();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="documentbuilder">DocumentBuilder</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * DocumentBuilder 是用于构建和解析 XML 文档的类，它是基于 DOM (Document Object Model) 的实现。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * DocumentBuilder 提供了创建、解析、修改 XML 文档的功能，并支持各种解析选项。在使用 DocumentBuilder 时，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 需要注意配置安全选项，例如禁用外部实体和 DTD，以防止潜在的安全漏洞。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> */</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>DocumentBuilderFactory<span style="color:#6e7681"> </span>factory<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>DocumentBuilderFactory.newInstance();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">// 修复: 禁用外部实体</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">// factory.setFeature(&#34;http://apache.org/xml/features/disallow-doctype-decl&#34;, true);</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>DocumentBuilder<span style="color:#6e7681"> </span>builder<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>factory.newDocumentBuilder();<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="unmarshaller">Unmarshaller</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * Unmarshaller 是 JAXB (Java Architecture for XML Binding) 的核心组件之一，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 它将 XML 数据转换为 Java 对象。Unmarshaller 提供了将 XML 数据映射到相应 Java 类的功能，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 并支持各种自定义配置。在使用 Unmarshaller 时，需要注意处理 XML 数据中的外部实体和 DTD，
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> * 以确保安全性。
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"> */</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">  *  PoC
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">  * Content-Type: application/xml
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">  * &lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;&lt;!DOCTYPE student[&lt;!ENTITY out SYSTEM &#34;file:///etc/hosts&#34;&gt;]&gt;&lt;student&gt;&lt;name&gt;&amp;out;&lt;/name&gt;&lt;/student&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">  */</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">Unmarshaller</span>(<span style="color:#d2a8ff;font-weight:bold">@RequestBody</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>content)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">try</span><span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>JAXBContext<span style="color:#6e7681"> </span>context<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>JAXBContext.newInstance(Student.class);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>Unmarshaller<span style="color:#6e7681"> </span>unmarshaller<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>context.createUnmarshaller();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>XMLInputFactory<span style="color:#6e7681"> </span>xif<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>XMLInputFactory.newFactory();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#8b949e;font-style:italic">// 修复: 禁用外部实体</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#8b949e;font-style:italic">// xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, &#34;&#34;);</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#8b949e;font-style:italic">// xif.setProperty(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, &#34;&#34;);</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>XMLStreamReader<span style="color:#6e7681"> </span>xsr<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>xif.createXMLStreamReader(<span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>StringReader(content));<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>Object<span style="color:#6e7681"> </span>o<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>unmarshaller.unmarshal(xsr);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>o.toString();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681"> </span><span style="color:#ff7b72">catch</span><span style="color:#6e7681"> </span>(Exception<span style="color:#6e7681"> </span>e)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>e.printStackTrace();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h2 id="漏洞修复">漏洞修复</h2>
+<p>一方面是禁用外部实体</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;http://apache.org/xml/features/disallow-doctype-decl&#34;</span>, <span style="color:#79c0ff">true</span> 
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;http://apache.org/xml/features/nonvalidating/load-external-dtd&#34;</span>, <span style="color:#79c0ff">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;http://xml.org/sax/features/external-general-entities&#34;</span>, <span style="color:#79c0ff">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;http://xml.org/sax/features/external-parameter-entities&#34;</span>, <span style="color:#79c0ff">false</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>XMLConstants.ACCESS_EXTERNAL_DTD, <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>XMLConstants.ACCESS_EXTERNAL_STYLESHEET, <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span></code></pre></div><p>另一方面可以使用黑名单过滤掉外部实体中的关键词,这两个关键字是定义外部实体和文档类型声明的标志&hellip;不过貌似有上面的禁用就够了</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">static</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">boolean</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">checkXXE</span>(String<span style="color:#6e7681"> </span>content)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#ff7b72;font-weight:bold">[]</span><span style="color:#6e7681"> </span>black_list<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>{<span style="color:#a5d6ff">&#34;ENTITY&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;DOCTYPE&#34;</span>};<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">for</span><span style="color:#6e7681"> </span>(String<span style="color:#6e7681"> </span>s<span style="color:#6e7681"> </span>:<span style="color:#6e7681"> </span>black_list)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">if</span><span style="color:#6e7681"> </span>(content.toUpperCase().contains(s))<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">            </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#79c0ff">true</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#79c0ff">false</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h2 id="漏洞发现">漏洞发现</h2>
+<p>是否禁止dtd或者entity
+参数是否可控
+传入参数格式为REST XML格式，X-RequestEntity-ContentType: application/xml</p>
+<p>黑盒找是否有参数是xml数据,如果有的话,直接上payload测测
+白盒,搜索关键函数,进行代码审计</p>
+<pre tabindex="0"><code> * 审计的函数
+ * 1. XMLReader
+ * 2. SAXReader
+ * 3. DocumentBuilder
+ * 4. XMLStreamReader
+ * 5. SAXBuilder
+ * 6. SAXParser
+ * 7. SAXSource
+ * 8. TransformerFactory
+ * 9. SAXTransformerFactory
+ * 10. SchemaFactory
+ * 11. Unmarshaller
+ * 12. XPathExpression
+</code></pre><h1 id="一句话总结">一句话总结</h1>
+<p>在 Java 中，XXE（XML 外部实体注入）漏洞与其他语言类似：攻击者通过不安全的 XML 解析配置，在 XML 文档中注入恶意外部实体，能够读取本地文件、发起远程请求或执行其他恶意操作。</p>
+<h1 id="参考">参考</h1>
+<p>小迪sec
+<a href="https://www.cnblogs.com/LittleHann/p/17776458.html">Java XXE漏洞原理研究</a></p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>javasec-sql注入</title>
+            <link>http://localhost:1313/posts/2024/07/javasec-sql%E6%B3%A8%E5%85%A5/</link>
+            <pubDate>Thu, 25 Jul 2024 00:00:00 +0000</pubDate>
+            
+            <guid>http://localhost:1313/posts/2024/07/javasec-sql%E6%B3%A8%E5%85%A5/</guid>
+            <description>javasec-sql注入 前置知识 sql注入 没有对用户的输入进行处理(过滤,黑名单,SQL预编译),直接将输入拼接到了sql语句中, 导致执行</description>
+            <content type="html"><![CDATA[<h1 id="javasec-sql注入">javasec-sql注入</h1>
+<h2 id="前置知识">前置知识</h2>
+<h3 id="sql注入">sql注入</h3>
+<p>没有对用户的输入进行处理(过滤,黑名单,SQL预编译),直接将输入拼接到了sql语句中,
+导致执行了用户构造的恶意SQL语句
+SQL注入的语法与使用的数据库相关,与语言无关</p>
+<h3 id="java数据库操作">java数据库操作</h3>
+<h4 id="jdbc">jdbc</h4>
+<p>java database connection
+java提供的数据库驱动库,用于进行数据库连接,执行SQL语句
+JDBC有两个方法执行SQL语句，分别是PrepareStatement和Statement。</p>
+<h4 id="hibernate">Hibernate</h4>
+<p>Hibernate是一个对象关系映射（ORM）框架，它将Java对象与数据库表进行映射，使开发者可以使用面向对象的编程方式来操作数据库。
+Hibernate能够将Java类自动映射到数据库表上，并且能够自动生成SQL语句来操作数据库，减少了手动编写SQL的繁琐工作。</p>
+<h4 id="mybatis">Mybatis</h4>
+<p>Mybatis是一个持久层框架，它通过消除几乎所有的JDBC代码和手动设置参数及获取结果集的工作来简化对数据库的操作。Mybatis可以通过XML或注解的方式将要执行的SQL、参数和结果映射进行配置。</p>
+<p>Mybatis与Hibernate这样的ORM（对象关系映射）框架不同，它更关注SQL本身，适合对数据库操作有较高控制要求的场景。其高效、灵活和简洁的特性，使得它在企业级开发中被广泛使用。</p>
+<h2 id="复现环境">复现环境</h2>
+<p><a href="https://github.com/j3ers3/Hello-Java-Sec">Hello-Java-Sec</a>
+<img src="https://img.l1uyun.one/javasec-sql%E6%B3%A8%E5%85%A5_image_1.png">
+<a href="https://github.com/bewhale/JavaSec">JavaSec</a>
+<img src="https://img.l1uyun.one/javasec-sql%E6%B3%A8%E5%85%A5_image_2.png"></p>
+<h2 id="jdbc-1">JDBC</h2>
+<p>JDBC有两个方法执行SQL语句，分别是PrepareStatement和Statement。
+JDBCTemplate是Spring对JDBC的封装</p>
+<h3 id="statement">Statement</h3>
+<p>这就是普通的写法,没有使用预编译</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 采用Statement方法拼接SQL语句，导致注入产生</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">vul1</span>(String<span style="color:#6e7681"> </span>id)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>Class.forName(<span style="color:#a5d6ff">&#34;com.mysql.cj.jdbc.Driver&#34;</span>);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>Connection<span style="color:#6e7681"> </span>conn<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>DriverManager.getConnection(db_url,<span style="color:#6e7681"> </span>db_user,<span style="color:#6e7681"> </span>db_pass);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>Statement<span style="color:#6e7681"> </span>stmt<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>conn.createStatement();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#8b949e;font-style:italic">// 拼接语句产生SQL注入</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#6e7681"> </span>sql<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;select * from users where id = &#39;&#34;</span><span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">+</span><span style="color:#6e7681"> </span>id<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">+</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;&#39;&#34;</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>ResultSet<span style="color:#6e7681"> </span>rs<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>stmt.executeQuery(sql);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>...<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><p>报错注入的语法</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://127.0.0.1:8888/SQLI/JDBC/vul1?id<span style="color:#ff7b72;font-weight:bold">=</span>1%27%20and%20updatexml<span style="color:#ff7b72;font-weight:bold">(</span>1,concat<span style="color:#ff7b72;font-weight:bold">(</span>0x7e,<span style="color:#ff7b72;font-weight:bold">(</span>SELECT%20user<span style="color:#ff7b72;font-weight:bold">())</span>,0x7e<span style="color:#ff7b72;font-weight:bold">)</span>,1<span style="color:#ff7b72;font-weight:bold">)</span>--%20+
+</span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-sql%E6%B3%A8%E5%85%A5_image_3.png"></p>
+<h3 id="preparestatement">PrepareStatement</h3>
+<p>预编译
+这里是使用了预编译,但是没有按照预编译的语法来写,没起作用</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// PrepareStatement会对SQL语句进行预编译，但如果直接采取拼接的方式构造SQL，此时进行预编译也无用。</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">vul2</span>(String<span style="color:#6e7681"> </span>id)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>Class.forName(<span style="color:#a5d6ff">&#34;com.mysql.cj.jdbc.Driver&#34;</span>);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>Connection<span style="color:#6e7681"> </span>conn<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>DriverManager.getConnection(db_url,<span style="color:#6e7681"> </span>db_user,<span style="color:#6e7681"> </span>db_pass);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#6e7681"> </span>sql<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;select * from users where id = &#34;</span><span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">+</span><span style="color:#6e7681"> </span>id;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>PreparedStatement<span style="color:#6e7681"> </span>st<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>conn.prepareStatement(sql);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>ResultSet<span style="color:#6e7681"> </span>rs<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>st.executeQuery();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-sql%E6%B3%A8%E5%85%A5_image_4.png"></p>
+<h3 id="jdbctemplate">JDBCTemplate</h3>
+<p>也是一样的,如果使用拼接,而不是使用占位符,就会导致SQL注入</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// JDBCTemplate是Spring对JDBC的封装，如果使用拼接语句便会产生注入</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>Map<span style="color:#ff7b72;font-weight:bold">&lt;</span>String,<span style="color:#6e7681"> </span>Object<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">vul3</span>(String<span style="color:#6e7681"> </span>id)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>DriverManagerDataSource<span style="color:#6e7681"> </span>dataSource<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>DriverManagerDataSource();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>...<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>JdbcTemplate<span style="color:#6e7681"> </span>jdbctemplate<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>JdbcTemplate(dataSource);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#6e7681"> </span>sql_vul<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;select * from users where id = &#34;</span><span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">+</span><span style="color:#6e7681"> </span>id;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#8b949e;font-style:italic">// 安全语句</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#8b949e;font-style:italic">// String sql_safe = &#34;select * from users where id = ?&#34;;</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>jdbctemplate.queryForMap(sql_vul);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="黑名单过滤">黑名单过滤</h3>
+<p>修复方法是采用黑名单过滤掉危险字符,当然,最好还是使用预编译的方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 采用黑名单过滤危险字符，同时也容易误伤（次方案）</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">static</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">boolean</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">checkSql</span>(String<span style="color:#6e7681"> </span>content)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#ff7b72;font-weight:bold">[]</span><span style="color:#6e7681"> </span>black_list<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>{<span style="color:#a5d6ff">&#34;&#39;&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;;&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;--&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;+&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;,&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;%&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;=&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;&gt;&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;*&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;(&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;)&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;and&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;or&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;exec&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;insert&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;select&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;delete&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;update&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;count&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;drop&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;chr&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;mid&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;master&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;truncate&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;char&#34;</span>,<span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;declare&#34;</span>};<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">for</span><span style="color:#6e7681"> </span>(String<span style="color:#6e7681"> </span>s<span style="color:#6e7681"> </span>:<span style="color:#6e7681"> </span>black_list)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">if</span><span style="color:#6e7681"> </span>(content.toLowerCase().contains(s))<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">            </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#79c0ff">true</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#79c0ff">false</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="使用占位符">使用?占位符</h3>
+<p>解决方法就是采用预编译的正确写法,占位符</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 正确的使用PrepareStatement可以有效避免SQL注入，使用？作为占位符，进行参数化查询</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">safe1</span>(String<span style="color:#6e7681"> </span>id)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#6e7681"> </span>sql<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;select * from users where id = ?&#34;</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>PreparedStatement<span style="color:#6e7681"> </span>st<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>conn.prepareStatement(sql);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>st.setString(1,<span style="color:#6e7681"> </span>id);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>ResultSet<span style="color:#6e7681"> </span>rs<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>st.executeQuery();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="使用esapi过滤输入">使用ESAPI过滤输入</h3>
+<p>安全写法是使用ESAPI来对输入进行过滤,当然使用占位符就可以了</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// ESAPI 是一个免费、开源的、网页应用程序安全控件库，它使程序员能够更容易写出更低风险的程序</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">// 官网：https://owasp.org/www-project-enterprise-security-api/</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">safe3</span>(String<span style="color:#6e7681"> </span>id)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>Codec<span style="color:#ff7b72;font-weight:bold">&lt;</span>Character<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span>oracleCodec<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">new</span><span style="color:#6e7681"> </span>OracleCodec();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>Statement<span style="color:#6e7681"> </span>stmt<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>conn.createStatement();<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#6e7681"> </span>sql<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;select * from users where id = &#39;&#34;</span><span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">+</span><span style="color:#6e7681"> </span>ESAPI.encoder().encodeForSQL(oracleCodec,<span style="color:#6e7681"> </span>id)<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">+</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;&#39;&#34;</span>;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>ResultSet<span style="color:#6e7681"> </span>rs<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span>stmt.executeQuery(sql);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">                    
+</span></span></span></code></pre></div><h3 id="强制参数类型">强制参数类型</h3>
+<p>不使用string类型的参数,而是写死类型,那样也能避免sql注入</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 如果参数类型为boolean,byte,short,int,long,float,double等，sql语句无法拼接字符串，因此不存在注入</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>Map<span style="color:#ff7b72;font-weight:bold">&lt;</span>String,<span style="color:#6e7681"> </span>Object<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">safe4</span>(Integer<span style="color:#6e7681"> </span>id)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>String<span style="color:#6e7681"> </span>sql<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#6e7681"> </span><span style="color:#a5d6ff">&#34;select * from users where id = &#34;</span><span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">+</span><span style="color:#6e7681"> </span>id;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>jdbctemplate.queryForMap(sql);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="总结">总结</h3>
+<p>-jdbc
+出现SQL注入的条件是
+1、采用Statement方法拼接SQL语句
+2、PrepareStatement会对SQL语句进行预编译，但如果直接采取拼接的方式构造SQL，此时进行预编译也无用。
+3、JDBCTemplate是Spring对JDBC的封装，如果使用拼接语句便会产生注入</p>
+<p>安全写法：SQL语句占位符（?） + PrepareStatement预编译</p>
+<h2 id="mybatis-1">Mybatis</h2>
+<p>MyBatis框架底层已经实现了对SQL注入的防御，但存在使用不当的情况下，仍然存在SQL注入的风险。
+MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译，$使用拼接SQL。</p>
+<p>这里的问题主要是使用#{}的问题,使用#{}之后,传进来的参数会被转成带双引号的字符串,导致sql语句错误,开发偷懒就使用了${}进行拼接处理.</p>
+<h3 id="order-by-注入">order by 注入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 由于使用#{}会将对象转成字符串，形成order by &#34;user&#34; desc造成错误，因此很多研发会采用${}来解决，从而造成SQL注入</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@GetMapping</span>(<span style="color:#a5d6ff">&#34;/vul/order&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">public</span><span style="color:#6e7681"> </span>List<span style="color:#ff7b72;font-weight:bold">&lt;</span>User<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">orderBy</span>(String<span style="color:#6e7681"> </span>field,<span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>sort)<span style="color:#6e7681"> </span>{<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>userMapper.orderBy(field,<span style="color:#6e7681"> </span>sort);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">// xml方式</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72;font-weight:bold">&lt;</span>select<span style="color:#6e7681"> </span>id<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;orderBy&#34;</span><span style="color:#6e7681"> </span>resultType<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;com.best.hello.entity.User&#34;</span><span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>select<span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">*</span><span style="color:#6e7681"> </span>from<span style="color:#6e7681"> </span>users<span style="color:#6e7681"> </span>order<span style="color:#6e7681"> </span>by<span style="color:#6e7681"> </span>${field}<span style="color:#6e7681"> </span>${sort}<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72;font-weight:bold">&lt;/</span>select<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">// 注解方式</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@Select</span>(<span style="color:#a5d6ff">&#34;select * from users order by ${field} desc&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>List<span style="color:#ff7b72;font-weight:bold">&lt;</span>User<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">orderBy2</span>(<span style="color:#d2a8ff;font-weight:bold">@Param</span>(<span style="color:#a5d6ff">&#34;field&#34;</span>)<span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>field);<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">                    
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://127.0.0.1:8888/SQLI/MyBatis/vul/order?field<span style="color:#ff7b72;font-weight:bold">=</span>id&amp;<span style="color:#79c0ff">sort</span><span style="color:#ff7b72;font-weight:bold">=</span>desc,1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[{</span><span style="color:#a5d6ff">&#34;id&#34;</span>:2,<span style="color:#a5d6ff">&#34;user&#34;</span>:<span style="color:#a5d6ff">&#34;admin&#34;</span>,<span style="color:#a5d6ff">&#34;pass&#34;</span>:<span style="color:#a5d6ff">&#34;password&#34;</span><span style="color:#ff7b72;font-weight:bold">}</span>,<span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;id&#34;</span>:1,<span style="color:#a5d6ff">&#34;user&#34;</span>:<span style="color:#a5d6ff">&#34;zhangwei&#34;</span>,<span style="color:#a5d6ff">&#34;pass&#34;</span>:<span style="color:#a5d6ff">&#34;123456&#34;</span><span style="color:#ff7b72;font-weight:bold">}]</span>
+</span></span></code></pre></div><h3 id="搜索框注入">搜索框注入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// 模糊搜索时，直接使用<span style="color:#a5d6ff">&#39;%#{q}%&#39;</span> 会报错，部分研发图方便直接改成<span style="color:#a5d6ff">&#39;%${q}%&#39;</span>从而造成注入
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@Select<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;select * from users where user like &#39;%</span><span style="color:#a5d6ff">${</span><span style="color:#79c0ff">q</span><span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">%&#39;&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>List&lt;User&gt; search<span style="color:#ff7b72;font-weight:bold">(</span>String q<span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>// 安全代码,采用concat
+</span></span><span style="display:flex;"><span>@Select<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;select * from users where user like concat(&#39;%&#39;,#{q},&#39;%&#39;)&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>List&lt;User&gt; search<span style="color:#ff7b72;font-weight:bold">(</span>String q<span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span></code></pre></div><h3 id="in-注入">in 注入</h3>
+<p>这里也是使用了${}来进行了拼接,会导致错误</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    @RequestMapping<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;/in&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    public String in<span style="color:#ff7b72;font-weight:bold">(</span>String ids, Model model<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        try <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>//            List&lt;String&gt; <span style="color:#79c0ff">list</span> <span style="color:#ff7b72;font-weight:bold">=</span> Arrays.asList<span style="color:#ff7b72;font-weight:bold">(</span>ids.split<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;,&#34;</span><span style="color:#ff7b72;font-weight:bold">))</span>;
+</span></span><span style="display:flex;"><span>//            ArrayList&lt;Admin&gt; <span style="color:#79c0ff">adminList</span> <span style="color:#ff7b72;font-weight:bold">=</span> injectService.in<span style="color:#ff7b72;font-weight:bold">(</span>list<span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span><span style="display:flex;"><span>            ArrayList&lt;Admin&gt; <span style="color:#79c0ff">adminList</span> <span style="color:#ff7b72;font-weight:bold">=</span> injectService.in<span style="color:#ff7b72;font-weight:bold">(</span>ids<span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span><span style="display:flex;"><span>            model.addAttribute<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;userInfo&#34;</span>, adminList<span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">}</span> catch <span style="color:#ff7b72;font-weight:bold">(</span>Exception e<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            e.printStackTrace<span style="color:#ff7b72;font-weight:bold">()</span>;
+</span></span><span style="display:flex;"><span>            model.addAttribute<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;results&#34;</span>, e.toString<span style="color:#ff7b72;font-weight:bold">())</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> <span style="color:#a5d6ff">&#34;basevul/sqli/mybatis_in&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    //  正确安全写法
+</span></span><span style="display:flex;"><span>    //  @Select<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;&lt;script&gt;&#34;</span> + <span style="color:#a5d6ff">&#34;SELECT * FROM users WHERE id IN &#34;</span> + <span style="color:#a5d6ff">&#34;&lt;foreach item=&#39;item&#39; index=&#39;index&#39; collection=&#39;ids&#39; open=&#39;(&#39; separator=&#39;,&#39; close=&#39;)&#39;&gt;&#34;</span> + <span style="color:#a5d6ff">&#34;#{item}&#34;</span> + <span style="color:#a5d6ff">&#34;&lt;/foreach&gt;&#34;</span> + <span style="color:#a5d6ff">&#34;&lt;/script&gt;&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    //  ArrayList&lt;Admin&gt; in<span style="color:#ff7b72;font-weight:bold">(</span>@Param<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;ids&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span> List&lt;String&gt; ids<span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span><span style="display:flex;"><span>    @Select<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;Select * from users where id in (</span><span style="color:#a5d6ff">${</span><span style="color:#79c0ff">ids</span><span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">)&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    ArrayList&lt;Admin&gt; in<span style="color:#ff7b72;font-weight:bold">(</span>@Param<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;ids&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span> String ids<span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></div><h3 id="使用排序映射">使用排序映射</h3>
+<p>安全写法是在xml中使用排序映射</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#7ee787">&lt;select</span> id=<span style="color:#a5d6ff">&#34;orderBySafe&#34;</span> resultType=<span style="color:#a5d6ff">&#34;com.best.hello.entity.User&#34;</span><span style="color:#7ee787">&gt;</span>
+</span></span><span style="display:flex;"><span>    select * from users
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;choose&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;when</span> test=<span style="color:#a5d6ff">&#34;field == &#39;id&#39;&#34;</span><span style="color:#7ee787">&gt;</span>
+</span></span><span style="display:flex;"><span>            order by id desc
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;/when&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;when</span> test=<span style="color:#a5d6ff">&#34;field == &#39;user&#39;&#34;</span><span style="color:#7ee787">&gt;</span>
+</span></span><span style="display:flex;"><span>            order by user desc
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;/when&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;otherwise&gt;</span>
+</span></span><span style="display:flex;"><span>            order by id desc
+</span></span><span style="display:flex;"><span>        <span style="color:#7ee787">&lt;/otherwise&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;/choose&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#7ee787">&lt;/select&gt;</span>
+</span></span></code></pre></div><h3 id="使用">使用#</h3>
+<p>使用Mybatis作为持久层框架，应通过#{}语法进行参数绑定，MyBatis 会创建 PreparedStatement 参数占位符，并通过占位符安全地设置参数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 使用 #{} 安全编码</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@Select</span>(<span style="color:#a5d6ff">&#34;select * from users where user like CONCAT(&#39;%&#39;, #{user}, &#39;%&#39;)&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>List<span style="color:#ff7b72;font-weight:bold">&lt;</span>User<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">queryByUser</span>(<span style="color:#d2a8ff;font-weight:bold">@Param</span>(<span style="color:#a5d6ff">&#34;user&#34;</span>)<span style="color:#6e7681"> </span>String<span style="color:#6e7681"> </span>user);<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="强制参数类型-1">强制参数类型</h3>
+<p>安全写法,强制类型</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">// 使用 ${} 本身是存在注入的，但由于强制使用Integer或long类型导致注入无效（无法注入字符串）</span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@Select</span>(<span style="color:#a5d6ff">&#34;select * from users where id = ${id}&#34;</span>)<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>List<span style="color:#ff7b72;font-weight:bold">&lt;</span>User<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">queryById2</span>(<span style="color:#d2a8ff;font-weight:bold">@Param</span>(<span style="color:#a5d6ff">&#34;id&#34;</span>)<span style="color:#6e7681"> </span>Integer<span style="color:#6e7681"> </span>id);<span style="color:#6e7681">
+</span></span></span></code></pre></div><h3 id="总结-1">总结</h3>
+<p>-MyBatis
+MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译，$使用拼接SQL。
+1、order by注入：由于使用#{}会将对象转成字符串，形成order by &ldquo;user&rdquo; desc造成错误，因此很多研发会采用${}来解决，从而造成注入.
+2、like 注入：模糊搜索时，直接使用&rsquo;%#{q}%&rsquo; 会报错，部分研发图方便直接改成&rsquo;%${q}%&lsquo;从而造成注入.
+3、in注入：in之后多个id查询时使用 # 同样会报错，从而造成注入.</p>
+<h1 id="一句话总结">一句话总结</h1>
+<p>在写sql语句时使用预编译,并且正确使用占位符,不要直接进行拼接处理</p>
+<h1 id="引用">引用</h1>
+<p>小迪sec java安全</p>
+]]></content>
+        </item>
         
         <item>
             <title>oracle-padding-attack</title>
@@ -15,8 +552,8 @@
             <pubDate>Tue, 16 Jul 2024 00:00:00 +0000</pubDate>
             
             <guid>http://localhost:1313/posts/2024/07/oracle-padding-attack/</guid>
-            <description>在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没遇见过,学习一下 前置知识 块密码 在分组密码加密领域，</description>
-            <content type="html"><![CDATA[<p>在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没遇见过,学习一下</p>
+            <description>在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没见过,学习一下 前置知识 块密码 在分组密码加密领域，数</description>
+            <content type="html"><![CDATA[<p>在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没见过,学习一下</p>
 <h2 id="前置知识">前置知识</h2>
 <h3 id="块密码">块密码</h3>
 <p>在分组密码加密领域，数据一次加密一个块，不同算法的块长度各不相同。
@@ -57,103 +594,92 @@ Counter (CTR) Mode
 <img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_5.png"></p>
 <h3 id="异或运算">异或运算</h3>
 <p>异或操作具有逆运算特性,即已知结果和一个操作数,就能退出来另外一个操作数</p>
-<pre tabindex="0"><code>A^B=C    
-在等号两边同时异或一个B
-=&gt;  A=C^B
-
-在等号两边同时异或一个B
-=&gt;  B=C^A
-</code></pre><h2 id="漏洞检测">漏洞检测</h2>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>A^B<span style="color:#ff7b72;font-weight:bold">=</span>C    
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">在等号两边同时异或一个B</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">=</span>&gt;  <span style="color:#79c0ff">A</span><span style="color:#ff7b72;font-weight:bold">=</span>C^B
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">在等号两边同时异或一个B</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">=</span>&gt;  <span style="color:#79c0ff">B</span><span style="color:#ff7b72;font-weight:bold">=</span>C^A
+</span></span></code></pre></div><h2 id="漏洞检测">漏洞检测</h2>
 <p>当密文值被修改之后,服务器不能正确的恢复明文时,会有报错信息回显出来
 <img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_6.png"></p>
 <h2 id="攻击原理">攻击原理</h2>
 <p>这里假设一个情形
 假设加密算法为 AES，表示块大小为 16 字节，则初始化向量 (IV) 也是 16 字节。</p>
-<pre tabindex="0"><code>if __name__ == &#39;__main__&#39;:
-    encrypted_data = b&#39;31323334353637383930313233343536f044039223b4b9aea7bc48cd1be80682&#39;
-    oracle_padding(ciphertext=encrypted_data)
-</code></pre><p>在许多实现中，IV 与消息一起传输。这里假设encrypted_data的前面十六个字节表示IV值,其他值是Cookie</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#79c0ff">__name__</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">encrypted_data</span> <span style="color:#ff7b72;font-weight:bold">=</span> b<span style="color:#a5d6ff">&#39;31323334353637383930313233343536f044039223b4b9aea7bc48cd1be80682&#39;</span>
+</span></span><span style="display:flex;"><span>    oracle_padding<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">ciphertext</span><span style="color:#ff7b72;font-weight:bold">=</span>encrypted_data<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><p>在许多实现中，IV 与消息一起传输。这里假设encrypted_data的前面十六个字节表示IV值,其他值是Cookie</p>
 <p>对于每个密文块而言,先将密文解密成伪明文,然后与IV(对于其他的密文块而言,IV就是前面一个密文块)进行异或,得到明文
 <img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_7.png">
 这里如果我们修改IV值,就能够改变服务器那边解密出来的明文值,而服务器出现解密失败的话,会有填充错误的信息回显出来,(<em>这是漏洞产生的条件</em>)表明服务器检查了解密出来的明文的最后一个字节并将其识别为无效的填充字节。
 如果我们尝试对IV进行逐个字节的修改,来让解密之后的明文的填充字节有效(并且我们是知道的),就能逐个字节的解密出来中间的伪明文,最后通过与已知的IV异或,就能得到明文值</p>
-<pre tabindex="0"><code>步骤:
-初始化：我们从IV的最后一个字节（第16个字节）开始。
-
-逐步修改：将IV的第16个字节增加1，然后发送修改后的密文或IV进行解密。如果服务器返回填充无效错误，继续增加该字节的值。
-
-填充有效：当服务器不再返回填充无效错误时，表示填充是有效的。根据PKCS#7填充规则，这意味着解密后的伪明文的最后一个字节是0x01。
-
-推导明文：通过异或操作推导出密文对应位置的伪明文值。例如，如果IV的最后一个字节是0x35，且解密后伪明文的最后一个字节是0x01，则0x35 ^ 0x01 = 明文的最后一个字节。
-</code></pre><h3 id="恢复伪明文">恢复伪明文</h3>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>步骤:
+</span></span><span style="display:flex;"><span>初始化：我们从IV的最后一个字节（第16个字节）开始。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>逐步修改：将IV的第16个字节增加1，然后发送修改后的密文或IV进行解密。如果服务器返回填充无效错误，继续增加该字节的值。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>填充有效：当服务器不再返回填充无效错误时，表示填充是有效的。根据PKCS#7填充规则，这意味着解密后的伪明文的最后一个字节是0x01。
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>推导明文：通过异或操作推导出密文对应位置的伪明文值。例如，如果IV的最后一个字节是0x35，且解密后伪明文的最后一个字节是0x01，则0x35 ^ <span style="color:#79c0ff">0x01</span> <span style="color:#ff7b72;font-weight:bold">=</span> 明文的最后一个字节。
+</span></span></code></pre></div><h3 id="恢复伪明文">恢复伪明文</h3>
 <p>我们从 IV 的最后一个字节（IV 的第 16 个字节）开始。将其增加 1，我们重新发送修改后的 cookie 进行解密。再次收到错误，表明填充无效。我们重复这个过程，直到服务器不再发送填充错误。发生这种情况时，表示填充正确，表明明文的最后一个字节的字节值为 0x01.</p>
-<pre tabindex="0"><code>Keystream[15] = IV[15] ^ 0x01
-Keystream[15] = 0x35 ^ 0x01 = 0x34
-</code></pre><p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_8.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Keystream<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> IV<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> ^ 0x01
+</span></span><span style="display:flex;"><span>Keystream<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x35 ^ <span style="color:#79c0ff">0x01</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x34
+</span></span></code></pre></div><p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_8.png"></p>
 <p>接下来，我们对 IV 的倒数第二个字节（IV 的第 15 个字节）重复相同的过程，挑战是相同的，我们需要猜测 IV 值并将它们发送到服务器，直到我们不再遇到填充错误,即填充的字节为0x02。不过，现在不同的是，我们要求明文的最后两个字节是0x02和0x02。
 对于最后一个字节，我们已经知道了伪明文的值,可以通过简单的异或运算来解决。</p>
-<pre tabindex="0"><code>IV[15] ^ Keystream[15] = 0x02
-IV[15] ^ 0x34 = 0x02 =&gt; IV[15] = 0x36
-</code></pre><p>然而，对于倒数第二个字节，我们需要尝试所有可能的值。从 0x00 开始递增，直到没有错误为止，我们发现 IV 字节是 0x35。</p>
-<pre tabindex="0"><code>Keystream[14] = IV[14] ^ 0x02
-Keystream[14] = 0x35 ^ 0x02 = 0x37
-</code></pre><p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_9.png">
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>IV<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> ^ Keystream<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x02
+</span></span><span style="display:flex;"><span>IV<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> ^ <span style="color:#79c0ff">0x34</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">0x02</span> <span style="color:#ff7b72;font-weight:bold">=</span>&gt; IV<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x36
+</span></span></code></pre></div><p>然而，对于倒数第二个字节，我们需要尝试所有可能的值。从 0x00 开始递增，直到没有错误为止，我们发现 IV 字节是 0x35。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Keystream<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> IV<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> ^ 0x02
+</span></span><span style="display:flex;"><span>Keystream<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x35 ^ <span style="color:#79c0ff">0x02</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x37
+</span></span></code></pre></div><p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_9.png">
 &hellip;重复上述过程,直到恢复所有的伪明文</p>
 <h3 id="恢复明文">恢复明文</h3>
 <p>第二阶段很简单,我们已经有了原始的IV值,和解密出来的伪明文,直接异或就能得到明文</p>
-<pre tabindex="0"><code>Plaintext[15] = IV[15] ^ Keystream[15]
-Plaintext[15] = 0x36 ^ 0x34 = 0x2 -&gt; padding no ASCII
-
-Plaintext[14] = IV[14] ^ Keystream[14]
-Plaintext[14] = 0x35 ^ 0x37 = 0x2 -&gt; padding no ASCII
-
-Plaintext[13] = IV[13] ^ Keystream[13]
-Plaintext[13] = 0x34 ^ 0x15 = 0x21 -&gt; convert to ASCII !
-...
-</code></pre><h2 id="疑惑与解决">疑惑与解决</h2>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Plaintext<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> IV<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> ^ Keystream<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>Plaintext<span style="color:#ff7b72;font-weight:bold">[</span>15<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x36 ^ <span style="color:#79c0ff">0x34</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x2 -&gt; padding no ASCII
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Plaintext<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> IV<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> ^ Keystream<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>Plaintext<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x35 ^ <span style="color:#79c0ff">0x37</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x2 -&gt; padding no ASCII
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Plaintext<span style="color:#ff7b72;font-weight:bold">[</span>13<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> IV<span style="color:#ff7b72;font-weight:bold">[</span>13<span style="color:#ff7b72;font-weight:bold">]</span> ^ Keystream<span style="color:#ff7b72;font-weight:bold">[</span>13<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>Plaintext<span style="color:#ff7b72;font-weight:bold">[</span>13<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x34 ^ <span style="color:#79c0ff">0x15</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x21 -&gt; convert to ASCII !
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><h2 id="疑惑与解决">疑惑与解决</h2>
 <p>密码学还是接触的太少了&hellip;</p>
 <p>我们假设C1|C2,我们要解密C2,
 假设明文P2的最后两个字节是0x02,0x02,即填充字节是2个0x02
 C1的最后一个字节C1[-1]是0x01,伪明文M2[-1]是0x01^0x02=0x03</p>
 <p>我的疑惑是,如果从0x00开始修改C1[-1].会不会在让明文的最后一个字节为0x01之前,提前让解密之后的明文的最后一个字节为0x02,那样子也能够返回填充正确,但是这种情况下我们不能确定明文末尾的填充值.就不能得到伪明文的值了
 根据计算</p>
-<pre tabindex="0"><code>M2[-1] 0000 0011
-C1[-1] 0000 0000  
-这里得到的P[-1]是0x03,填充失败
-
-M2[-1] 0000 0011
-C1[-1] 0000 0001 
-这里得到的P[-1]是0x02,填充成功了...但是我们需要的是0x01时成功
-</code></pre><p>但是如果不是从0x00开始修改,而是从他最开始的值+1开始</p>
-<pre tabindex="0"><code>M2[-1] 0000 0011
-C1[-1] 0000 0010  
-最开始是0x01.从加1开始就是0x02了,这样就能确保得到0x01的明文填充值
-</code></pre><p>继续假设P2末尾序列是0x03,0x03,0x03
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>M2<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0011</span>
+</span></span><span style="display:flex;"><span>C1<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0000</span>  
+</span></span><span style="display:flex;"><span>这里得到的P<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span>是0x03,填充失败
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>M2<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0011</span>
+</span></span><span style="display:flex;"><span>C1<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0001</span> 
+</span></span><span style="display:flex;"><span>这里得到的P<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span>是0x02,填充成功了...但是我们需要的是0x01时成功
+</span></span></code></pre></div><p>但是如果不是从0x00开始修改,而是从他最开始的值+1开始</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>M2<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0011</span>
+</span></span><span style="display:flex;"><span>C1<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">0000</span> <span style="color:#a5d6ff">0010</span>  
+</span></span><span style="display:flex;"><span>最开始是0x01.从加1开始就是0x02了,这样就能确保得到0x01的明文填充值
+</span></span></code></pre></div><p>继续假设P2末尾序列是0x03,0x03,0x03
 C1[-1]的值是0xfa,那么伪明文M2[-1]的值就是0xff</p>
-<pre tabindex="0"><code>M2[-1] 1111 1111
-C1[-1] 1111 1101
-从0xfb开始进行枚举  0x02,填充失败
-M2[-1] 1111 1111
-C1[-1] 1111 1110 
-0x01,填充成功
-</code></pre><p>我现在的理解是这样的机制,确保了不会提前得到原本的填充值.
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>M2<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">1111</span> <span style="color:#a5d6ff">1111</span>
+</span></span><span style="display:flex;"><span>C1<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">1111</span> <span style="color:#a5d6ff">1101</span>
+</span></span><span style="display:flex;"><span>从0xfb开始进行枚举  0x02,填充失败
+</span></span><span style="display:flex;"><span>M2<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">1111</span> <span style="color:#a5d6ff">1111</span>
+</span></span><span style="display:flex;"><span>C1<span style="color:#ff7b72;font-weight:bold">[</span>-1<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#a5d6ff">1111</span> <span style="color:#a5d6ff">1110</span> 
+</span></span><span style="display:flex;"><span>0x01,填充成功
+</span></span></code></pre></div><p>我现在的理解是这样的机制,确保了不会提前得到原本的填充值.
 密码学让我头大&hellip;.</p>
 <h1 id="一句话总结">一句话总结</h1>
 <p>通过修改IV值的末尾字节,来控制解密之后的明文的末尾字节为填充字节,从而获得中间值,进而获取明文</p>
 <h1 id="引用">引用</h1>
 <p><a href="https://medium.com/@masjadaan/oracle-padding-attack-a61369993c86">Oracle Padding Attack</a>
 <a href="https://book.hacktricks.xyz/crypto-and-stego/padding-oracle-priv">hacktricks_Padding Oracle</a></p>
-]]></content>
-        </item>
-        
-        <item>
-            <title>hello world</title>
-            <link>http://localhost:1313/posts/2024/07/hello-world/</link>
-            <pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate>
-            
-            <guid>http://localhost:1313/posts/2024/07/hello-world/</guid>
-            <description>目前还是空的111</description>
-            <content type="html"><![CDATA[<p>目前还是空的111</p>
 ]]></content>
         </item>
         

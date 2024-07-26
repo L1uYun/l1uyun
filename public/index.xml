@@ -7,14 +7,28 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 16 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jul 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>javasec-xxe</title>
+      <link>http://localhost:1313/posts/2024/07/javasec-xxe/</link>
+      <pubDate>Fri, 26 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024/07/javasec-xxe/</guid>
+      <description>xxe注入 前置知识 XML文档 要了解XXE漏洞，那么先得了解一下有关XML的基础知识。 XML是一种非常流行的标记语言，在1990年代后期首次标</description>
+    </item>
+    <item>
+      <title>javasec-sql注入</title>
+      <link>http://localhost:1313/posts/2024/07/javasec-sql%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Thu, 25 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024/07/javasec-sql%E6%B3%A8%E5%85%A5/</guid>
+      <description>javasec-sql注入 前置知识 sql注入 没有对用户的输入进行处理(过滤,黑名单,SQL预编译),直接将输入拼接到了sql语句中, 导致执行</description>
+    </item>
     <item>
       <title>oracle-padding-attack</title>
       <link>http://localhost:1313/posts/2024/07/oracle-padding-attack/</link>
       <pubDate>Tue, 16 Jul 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/2024/07/oracle-padding-attack/</guid>
-      <description>在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没遇见过,学习一下 前置知识 块密码 在分组密码加密领域，</description>
+      <description>在打tryhackme的New-York-Flankees房间的时候遇见了这个攻击方式,没见过,学习一下 前置知识 块密码 在分组密码加密领域，数</description>
     </item>
     <item>
       <title>about</title>
@@ -22,13 +36,6 @@
       <pubDate>Thu, 11 Jul 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/about/</guid>
       <description>这个也还是空的</description>
-    </item>
-    <item>
-      <title>hello world</title>
-      <link>http://localhost:1313/posts/2024/07/hello-world/</link>
-      <pubDate>Tue, 09 Jul 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/2024/07/hello-world/</guid>
-      <description>目前还是空的111</description>
     </item>
   </channel>
 </rss>
