@@ -35,6 +35,11 @@ disableSitemap = false  # 启用站点地图
 disable404     = false  # 启用404页面
 disableHugoGeneratorInject = false  # 启用Hugo生成器注入
 
+markup:   # 硬换行,让我不用敲两次换行符
+  goldmark:
+    renderer:
+      hardWraps: true
+
 [permalinks]
   posts = "/posts/:year/:month/:title/"  # 文章的永久链接格式
 
