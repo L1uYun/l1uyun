@@ -8,15 +8,21 @@ tags:
 ## 前置知识
 ### sql注入
 没有对用户的输入进行处理(过滤,黑名单,SQL预编译),直接将输入拼接到了sql语句中,
+
 导致执行了用户构造的恶意SQL语句
+
 SQL注入的语法与使用的数据库相关,与语言无关
 ### java数据库操作
 #### jdbc
 java database connection
+
 java提供的数据库驱动库,用于进行数据库连接,执行SQL语句
+
 JDBC有两个方法执行SQL语句，分别是PrepareStatement和Statement。
+
 #### Hibernate
 Hibernate是一个对象关系映射（ORM）框架，它将Java对象与数据库表进行映射，使开发者可以使用面向对象的编程方式来操作数据库。
+
 Hibernate能够将Java类自动映射到数据库表上，并且能够自动生成SQL语句来操作数据库，减少了手动编写SQL的繁琐工作。
 #### Mybatis
 Mybatis是一个持久层框架，它通过消除几乎所有的JDBC代码和手动设置参数及获取结果集的工作来简化对数据库的操作。Mybatis可以通过XML或注解的方式将要执行的SQL、参数和结果映射进行配置。
@@ -30,6 +36,7 @@ Mybatis与Hibernate这样的ORM（对象关系映射）框架不同，它更关�
 ![](https://img.l1uyun.one/javasec-sql注入_image_2.png)
 ## JDBC
 JDBC有两个方法执行SQL语句，分别是PrepareStatement和Statement。
+
 JDBCTemplate是Spring对JDBC的封装
 ### Statement
 这就是普通的写法,没有使用预编译
@@ -54,8 +61,7 @@ http://127.0.0.1:8888/SQLI/JDBC/vul1?id=1%27%20and%20updatexml(1,concat(0x7e,(SE
 ![](https://img.l1uyun.one/javasec-sql注入_image_3.png)
 
 ### PrepareStatement
-预编译
-这里是使用了预编译,但是没有按照预编译的语法来写,没起作用
+这里是使用了预编译,但是没有按照预编译的语法来写,还是有漏洞存在
 ```java
 // PrepareStatement会对SQL语句进行预编译，但如果直接采取拼接的方式构造SQL，此时进行预编译也无用。
 
@@ -145,14 +151,18 @@ public Map<String, Object> safe4(Integer id) {
 ### 总结
 -jdbc
 出现SQL注入的条件是
+
 1、采用Statement方法拼接SQL语句
+
 2、PrepareStatement会对SQL语句进行预编译，但如果直接采取拼接的方式构造SQL，此时进行预编译也无用。
+
 3、JDBCTemplate是Spring对JDBC的封装，如果使用拼接语句便会产生注入
 
 安全写法：SQL语句占位符（?） + PrepareStatement预编译
 
 ## Mybatis
 MyBatis框架底层已经实现了对SQL注入的防御，但存在使用不当的情况下，仍然存在SQL注入的风险。
+
 MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译，\$使用拼接SQL。
 
 这里的问题主要是使用#{}的问题,使用#{}之后,传进来的参数会被转成带双引号的字符串,导致sql语句错误,开发偷懒就使用了${}进行拼接处理.
@@ -257,12 +267,15 @@ List<User> queryById2(@Param("id") Integer id);
 ### 总结
 -MyBatis
 MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译，\$使用拼接SQL。
+
 1、order by注入：由于使用#{}会将对象转成字符串，形成order by "user" desc造成错误，因此很多研发会采用${}来解决，从而造成注入.
+
 2、like 注入：模糊搜索时，直接使用'%#{q}%' 会报错，部分研发图方便直接改成'%${q}%'从而造成注入.
+
 3、in注入：in之后多个id查询时使用 # 同样会报错，从而造成注入.
 
 # 一句话总结
 在写sql语句时使用预编译,并且正确使用占位符,不要直接进行拼接处理
 
 # 引用
-小迪sec java安全
+小迪sec 
