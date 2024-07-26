@@ -26,37 +26,46 @@ Twofish
 如前所述，分组密码采用固定大小的块，当明文不是块大小的倍数时需要填充。存在多种填充技术，但在本次攻击中，我们的重点是 PKCS#7。
 #### PKCS#7
 公钥加密标准 #7 (PKCS#7) 是一种广泛认可的加密标准，它定义了一种填充方案，用于在需要固定块大小的块密码模式中加密之前填充最后一个明文块。
+
 考虑一个情况,块大小为8,需要填充的单词为Exploit,attack,cyber,hack
+
 对于Exploit,需要填充一个字节,所以填充0x01
+
 对于attack,需要填充两个字节,所以填充0x02,0x02
+
 ![](https://img.l1uyun.one/202407160948_oracle-padding-attack_image_2.png)
+
 另一种情况,正好以及占据了8个字节,就会另起一个块
+
 ![](https://img.l1uyun.one/202407160948_oracle-padding-attack_image_3.png)
+
 ### 块密码模式
+
 分组密码的另一个重要方面是操作模式。
 
 由于分组密码对固定大小的数据块进行操作，因此在处理超过块长度的明文数据时会出现挑战。
 
 各种操作模式解决了这个问题，允许对不同长度的消息进行加密和解密。一些常用的模式包括：
 
-Electronic Codebook (ECB) Mode
+1. Electronic Codebook (ECB) Mode
 
-Cipher Block Chaining (CBC) Mode
+2. Cipher Block Chaining (CBC) Mode
 
-Counter (CTR) Mode 
+3. Counter (CTR) Mode 
+
 
 任何算法都可以采用这些模式；
 
 例如，您可能会遇到 AES-CBC 或 DES-CBC。
 
 在oracle padding中，我们的重点是密码块链接（CBC）模式。
+
 #### CBC
 一般来说CBC采用两个操作,一个是加密,一个是异或操作
 
 第一块明文,加密之后与初始向量异或,第二块明文加密之后,与第一块密文相异或...这种方案,即使明文相同,由于初始向量是不同的,密文最终也是不同的
 ![](https://img.l1uyun.one/202407160948_oracle-padding-attack_image_4.png)
-解密的时候
-首先将最后一块密文C\[-1]\,使用解密算法解密,得到伪明文M\[-1\],然后将伪明文M\[-1\]与倒数第二块密文C\[-2\]进行异或,得到明文P\[-1\]
+解密的时候,首先将最后一块密文C\[-1]\,使用解密算法解密,得到伪明文M\[-1\],然后将伪明文M\[-1\]与倒数第二块密文C\[-2\]进行异或,得到明文P\[-1\]
 
 先解密,然后再异或
 ![](https://img.l1uyun.one/202407160948_oracle-padding-attack_image_5.png)
