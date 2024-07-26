@@ -1,6 +1,6 @@
 ---
 title: javasec-sql注入
-date: 2024-07-25-19
+date: 2024-07-25
 tags:
   - sec/javasec
 ---
