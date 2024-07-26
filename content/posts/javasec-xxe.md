@@ -59,10 +59,10 @@ DOCTYPE是DTD的声明
 ENTITY是实体的声明，所谓实体可以理解为变量
 SYSTEM、PUBLIC是外部资源的申请
 
-
 从两个角度可以把XML分为两类共4个类型：
 （内部实体、外部实体）
 （通用实体、参数实体）
+
 1)内部实体
 所谓内部实体是指在一个实体中定义的另一个实体，也就是嵌套定义。
 ![](https://img.l1uyun.one/javasec-xxe注入_image_1.png)
