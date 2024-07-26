@@ -6,7 +6,7 @@ tags: ['sec/javasec']
 # xxe注入
 ## 前置知识
 ### XML文档
-要了解XXE漏洞，那么先得学一下有关XML的基础知识。
+要了解XXE漏洞，那么先得了解一下有关XML的基础知识。
 
 XML是一种非常流行的标记语言，在1990年代后期首次标准化，并被无数的软件项目所采用。它用于配置文件，文档格式（如OOXML，ODF，PDF，RSS，...），图像格式（SVG，EXIF标题）和网络协议（WebDAV，CalDAV，XMLRPC，SOAP，XMPP，SAML， XACML，...）
 #### 文档结构
