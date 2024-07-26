@@ -132,7 +132,7 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 <p><a href="https://github.com/j3ers3/Hello-Java-Sec">Hello-Java-Sec</a>
 <a href="https://github.com/bewhale/JavaSec">JavaSec</a></p>
 <h2 id="漏洞分析">漏洞分析</h2>
-<p>按照这两个平台提供的资源,来看看具体的漏洞代码</p>
+<p>按照这两个平台提供的资源,来看看具体产生漏洞的代码</p>
 <h3 id="xmlreader">XMLReader</h3>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#8b949e;font-style:italic">/**
