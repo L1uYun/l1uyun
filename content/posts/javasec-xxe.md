@@ -149,7 +149,7 @@ XXE漏洞之所以名为外部实体漏洞，就是因为问题主要出自于�
 [Hello-Java-Sec](https://github.com/j3ers3/Hello-Java-Sec)
 [JavaSec](https://github.com/bewhale/JavaSec)
 ## 漏洞分析
-按照这两个平台提供的资源,来看看具体的漏洞代码
+按照这两个平台提供的资源,来看看具体产生漏洞的代码
 ### XMLReader
 ```java
 
