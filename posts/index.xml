@@ -41,20 +41,20 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;/book&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#7ee787">&lt;/bookstore&gt;</span>
 </span></span></code></pre></div><h4 id="dtd">DTD</h4>
-<p>DTD（Document Type Definition）是用来定义 XML 文档的结构和合法元素的集合。<br>
-DTD 定义了 XML 文档中可以出现的元素、属性和它们的顺序，以确保 XML 数据的格式和结构符合预定义的规则。<br>
+<p>DTD（Document Type Definition）是用来定义 XML 文档的结构和合法元素的集合。
+DTD 定义了 XML 文档中可以出现的元素、属性和它们的顺序，以确保 XML 数据的格式和结构符合预定义的规则。
 DTD 可以嵌入到 XML 文档中，也可以外部定义并引用。</p>
-<p>DOCTYPE是DTD的声明<br>
-!ELEMENT&gt; 声明用于定义 XML 文档中元素的结构和内容模型。它指定了元素的名称及其允许的子元素、文本内容或其他结构。<br>
-ENTITY是实体的声明，所谓实体可以理解为变量<br>
+<p>DOCTYPE是DTD的声明
+!ELEMENT&gt; 声明用于定义 XML 文档中元素的结构和内容模型。它指定了元素的名称及其允许的子元素、文本内容或其他结构。
+ENTITY是实体的声明，所谓实体可以理解为变量
 SYSTEM、PUBLIC是外部资源的申请</p>
 <p>从两个角度可以把XML分为两类共4个类型：</p>
 <p>（内部实体、外部实体）</p>
 <p>（通用实体、参数实体）</p>
-<p>1)内部实体<br>
-所谓内部实体是指在一个实体中定义的另一个实体，也就是嵌套定义。<br>
-<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_1.png"><br>
-<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_2.png"><br>
+<p>1)内部实体
+所谓内部实体是指在一个实体中定义的另一个实体，也就是嵌套定义。
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_1.png">
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_2.png">
 使用&amp;xxe对上面定义的xxe实体进行了引用，到时候输出的时候&amp;xxe就会被“test”替换。</p>
 <p>在XML内部声明DTD:</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
@@ -69,7 +69,7 @@ SYSTEM、PUBLIC是外部资源的申请</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;from&gt;</span>John<span style="color:#7ee787">&lt;/from&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&lt;message&gt;</span>Reminder<span style="color:#7ee787">&lt;/message&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#7ee787">&lt;/note&gt;</span>
-</span></span></code></pre></div><p>2）外部实体<br>
+</span></span></code></pre></div><p>2）外部实体
 外部实体表示外部文件的内容，用 SYSTEM 关键词表示，通常使用下面的格式来引用</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY entityName SYSTEM &#34;fileName&#34;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY example SYSTEM &#34;/etc/passwd&#34;&gt;</span>
@@ -77,27 +77,27 @@ SYSTEM、PUBLIC是外部资源的申请</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY entityName PUBLIC &#34;publicID&#34; &#34;fileName&#34;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY example PUBLIC &#34;-//W3C//DTD HTML 4.01 Transitional//EN&#34; &#34;html4-transitional.dtd&#34;&gt;</span>
-</span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_3.png"><br>
-有些XML文档包含system标识符定义的“实体”，这些文档会在DOCTYPE头部标签中呈现。这些定义的’实体’能够访问本地或者远程的内容。<br>
+</span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_3.png">
+有些XML文档包含system标识符定义的“实体”，这些文档会在DOCTYPE头部标签中呈现。这些定义的’实体’能够访问本地或者远程的内容。
 假如 SYSTEM 后面的内容可以被攻击者控制，那么攻击者就可以随意替换为其他内容，从而读取服务器本地文件（file:///etc/passwd）或者远程文件（http://www.baidu.com/abc.txt）。</p>
-<p>3）通用实体<br>
-用”&amp;实体名“引用的实体，在DTD中定义，在XML文档中引用。<br>
+<p>3）通用实体
+用”&amp;实体名“引用的实体，在DTD中定义，在XML文档中引用。
 <img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_4.png"></p>
-<p>4）参数实体<br>
-使用<code>% 实体名</code>（这里空格不能少）在 DTD 中定义，并且只能在 DTD 中使用<code>%实体名;</code>引用<br>
-只有在DTD文件中，参数实体的声明才能引用其他实体<br>
-和通用实体一样，参数实体也可以外部引用<br>
+<p>4）参数实体
+使用<code>% 实体名</code>（这里空格不能少）在 DTD 中定义，并且只能在 DTD 中使用<code>%实体名;</code>引用
+只有在DTD文件中，参数实体的声明才能引用其他实体
+和通用实体一样，参数实体也可以外部引用
 <img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_5.png"></p>
 <h3 id="xxe">XXE</h3>
-<p>XXE（XML External Entity Injection，XML 外部实体注入）是一种安全漏洞，通常发生在解析 XML 数据时。攻击者通过在 XML 文档中注入外部实体来读取本地文件、发送数据到远程服务器，甚至执行其他恶意操作。<br>
+<p>XXE（XML External Entity Injection，XML 外部实体注入）是一种安全漏洞，通常发生在解析 XML 数据时。攻击者通过在 XML 文档中注入外部实体来读取本地文件、发送数据到远程服务器，甚至执行其他恶意操作。
 XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全问题。</p>
-<p>XXE漏洞之所以名为外部实体漏洞，就是因为问题主要出自于外部资源的申请以及外部实体的引用这部分特性中。我们从XXE的全称（XML外部实体注入）可以看出，XXE也是一种XML注入，只不过注入的是XML外部实体罢了。<br>
+<p>XXE漏洞之所以名为外部实体漏洞，就是因为问题主要出自于外部资源的申请以及外部实体的引用这部分特性中。我们从XXE的全称（XML外部实体注入）可以看出，XXE也是一种XML注入，只不过注入的是XML外部实体罢了。
 <img alt="|500" src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_6.png"></p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;ISO-8859-1&#34;?&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!DOCTYPE foo [  
 </span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">  &lt;!ELEMENT foo ANY &gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#8b949e;font-weight:bold;font-style:italic">&lt;!ENTITY xxe SYSTEM &#34;file:///etc/passwd&#34; &gt;</span>]&gt;<span style="color:#7ee787">&lt;foo&gt;</span><span style="color:#ffa657">&amp;xxe;</span><span style="color:#7ee787">&lt;/foo&gt;</span>
-</span></span></code></pre></div><p>在这个示例中，<code>&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt; </code>定义了一个外部实体 xxe，指向本地文件 /etc/passwd。<br>
+</span></span></code></pre></div><p>在这个示例中，<code>&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt; </code>定义了一个外部实体 xxe，指向本地文件 /etc/passwd。
 当 XML 解析器解析这个 XML 数据时，它会尝试读取 /etc/passwd 文件的内容并将其插入到 <!-- raw HTML omitted -->&amp;xxe;<!-- raw HTML omitted --> 标签中。</p>
 <h3 id="java-解析xml的四种方式">Java 解析XML的四种方式</h3>
 <ol>
@@ -129,7 +129,7 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 </li>
 </ol>
 <h2 id="复现平台">复现平台</h2>
-<p><a href="https://github.com/j3ers3/Hello-Java-Sec">Hello-Java-Sec</a><br>
+<p><a href="https://github.com/j3ers3/Hello-Java-Sec">Hello-Java-Sec</a>
 <a href="https://github.com/bewhale/JavaSec">JavaSec</a></p>
 <h2 id="漏洞分析">漏洞分析</h2>
 <p>按照这两个平台提供的资源,来看看具体的漏洞代码</p>
@@ -154,7 +154,7 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">        </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>e.toString();<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span>}<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
-</span></span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_2.png"><br>
+</span></span></span></code></pre></div><p><img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_2.png">
 修复方法就是上面代码中的,setFeature,禁用外部实体</p>
 <h3 id="saxparser">SAXParser</h3>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">/**
@@ -174,8 +174,8 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">		</span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>e.toString();<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">	</span>}<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
-</span></span></span></code></pre></div><p>会有报错信息,但是dnslog弹成功了<br>
-<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_7.png"><br>
+</span></span></span></code></pre></div><p>会有报错信息,但是dnslog弹成功了
+<img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_7.png">
 <img src="https://img.l1uyun.one/javasec-xxe%E6%B3%A8%E5%85%A5_image_8.png"></p>
 <h3 id="saxreader">SAXReader</h3>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic">/**
@@ -277,10 +277,10 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span><span style="color:#79c0ff">false</span>;<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
 </span></span></span></code></pre></div><h2 id="漏洞发现">漏洞发现</h2>
-<p>是否禁止dtd或者entity<br>
-参数是否可控<br>
+<p>是否禁止dtd或者entity
+参数是否可控
 传入参数格式为REST XML格式，X-RequestEntity-ContentType: application/xml</p>
-<p>黑盒找是否有参数是xml数据,如果有的话,直接上payload测测<br>
+<p>黑盒找是否有参数是xml数据,如果有的话,直接上payload测测
 白盒,搜索关键函数,进行代码审计</p>
 <pre tabindex="0"><code> * 审计的函数
  * 1. XMLReader
@@ -298,7 +298,7 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 </code></pre><h1 id="一句话总结">一句话总结</h1>
 <p>在 Java 中，XXE（XML 外部实体注入）漏洞与其他语言类似：攻击者通过不安全的 XML 解析配置，在 XML 文档中注入恶意外部实体，能够读取本地文件、发起远程请求或执行其他恶意操作。</p>
 <h1 id="参考">参考</h1>
-<p>小迪sec<br>
+<p>小迪sec
 <a href="https://www.cnblogs.com/LittleHann/p/17776458.html">Java XXE漏洞原理研究</a></p>
 ]]></content></item><item><title>javasec-sql注入</title><link>https://l1uyun.one/posts/2024/07/javasec-sql%E6%B3%A8%E5%85%A5/</link><pubDate>Thu, 25 Jul 2024 00:00:00 +0000</pubDate><guid>https://l1uyun.one/posts/2024/07/javasec-sql%E6%B3%A8%E5%85%A5/</guid><description>javasec-sql注入 前置知识 sql注入 没有对用户的输入进行处理(过滤,黑名单,SQL预编译),直接将输入拼接到了sql语句中, 导致执行</description><content type="html"><![CDATA[<h1 id="javasec-sql注入">javasec-sql注入</h1>
 <h2 id="前置知识">前置知识</h2>
@@ -318,9 +318,9 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 <p>Mybatis是一个持久层框架，它通过消除几乎所有的JDBC代码和手动设置参数及获取结果集的工作来简化对数据库的操作。Mybatis可以通过XML或注解的方式将要执行的SQL、参数和结果映射进行配置。</p>
 <p>Mybatis与Hibernate这样的ORM（对象关系映射）框架不同，它更关注SQL本身，适合对数据库操作有较高控制要求的场景。其高效、灵活和简洁的特性，使得它在企业级开发中被广泛使用。</p>
 <h2 id="复现环境">复现环境</h2>
-<p><a href="https://github.com/j3ers3/Hello-Java-Sec">Hello-Java-Sec</a><br>
-<img src="https://img.l1uyun.one/javasec-sql%E6%B3%A8%E5%85%A5_image_1.png"><br>
-<a href="https://github.com/bewhale/JavaSec">JavaSec</a><br>
+<p><a href="https://github.com/j3ers3/Hello-Java-Sec">Hello-Java-Sec</a>
+<img src="https://img.l1uyun.one/javasec-sql%E6%B3%A8%E5%85%A5_image_1.png">
+<a href="https://github.com/bewhale/JavaSec">JavaSec</a>
 <img src="https://img.l1uyun.one/javasec-sql%E6%B3%A8%E5%85%A5_image_2.png"></p>
 <h2 id="jdbc-1">JDBC</h2>
 <p>JDBC有两个方法执行SQL语句，分别是PrepareStatement和Statement。</p>
@@ -415,7 +415,7 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681">    </span><span style="color:#ff7b72">return</span><span style="color:#6e7681"> </span>jdbctemplate.queryForMap(sql);<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>}<span style="color:#6e7681">
 </span></span></span></code></pre></div><h3 id="总结">总结</h3>
-<p>-jdbc<br>
+<p>-jdbc
 出现SQL注入的条件是</p>
 <p>1、采用Statement方法拼接SQL语句</p>
 <p>2、PrepareStatement会对SQL语句进行预编译，但如果直接采取拼接的方式构造SQL，此时进行预编译也无用。</p>
@@ -505,7 +505,7 @@ XXE 攻击可能导致敏感信息泄露、服务拒绝（DoS）攻击等安全�
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#d2a8ff;font-weight:bold">@Select</span>(<span style="color:#a5d6ff">&#34;select * from users where id = ${id}&#34;</span>)<span style="color:#6e7681">
 </span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>List<span style="color:#ff7b72;font-weight:bold">&lt;</span>User<span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#6e7681"> </span><span style="color:#d2a8ff;font-weight:bold">queryById2</span>(<span style="color:#d2a8ff;font-weight:bold">@Param</span>(<span style="color:#a5d6ff">&#34;id&#34;</span>)<span style="color:#6e7681"> </span>Integer<span style="color:#6e7681"> </span>id);<span style="color:#6e7681">
 </span></span></span></code></pre></div><h3 id="总结-1">总结</h3>
-<p>-MyBatis<br>
+<p>-MyBatis
 MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译，$使用拼接SQL。</p>
 <p>1、order by注入：由于使用#{}会将对象转成字符串，形成order by &ldquo;user&rdquo; desc造成错误，因此很多研发会采用${}来解决，从而造成注入.</p>
 <p>2、like 注入：模糊搜索时，直接使用&rsquo;%#{q}%&rsquo; 会报错，部分研发图方便直接改成&rsquo;%${q}%&lsquo;从而造成注入.</p>
@@ -528,30 +528,37 @@ MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译�
 <h3 id="填充方案">填充方案</h3>
 <p>如前所述，分组密码采用固定大小的块，当明文不是块大小的倍数时需要填充。存在多种填充技术，但在本次攻击中，我们的重点是 PKCS#7。</p>
 <h4 id="pkcs7">PKCS#7</h4>
-<p>公钥加密标准 #7 (PKCS#7) 是一种广泛认可的加密标准，它定义了一种填充方案，用于在需要固定块大小的块密码模式中加密之前填充最后一个明文块。<br>
-考虑一个情况,块大小为8,需要填充的单词为Exploit,attack,cyber,hack<br>
-对于Exploit,需要填充一个字节,所以填充0x01<br>
-对于attack,需要填充两个字节,所以填充0x02,0x02<br>
-<img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_2.png"><br>
-另一种情况,正好以及占据了8个字节,就会另起一个块<br>
-<img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_3.png"></p>
+<p>公钥加密标准 #7 (PKCS#7) 是一种广泛认可的加密标准，它定义了一种填充方案，用于在需要固定块大小的块密码模式中加密之前填充最后一个明文块。</p>
+<p>考虑一个情况,块大小为8,需要填充的单词为Exploit,attack,cyber,hack</p>
+<p>对于Exploit,需要填充一个字节,所以填充0x01</p>
+<p>对于attack,需要填充两个字节,所以填充0x02,0x02</p>
+<p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_2.png"></p>
+<p>另一种情况,正好以及占据了8个字节,就会另起一个块</p>
+<p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_3.png"></p>
 <h3 id="块密码模式">块密码模式</h3>
 <p>分组密码的另一个重要方面是操作模式。</p>
 <p>由于分组密码对固定大小的数据块进行操作，因此在处理超过块长度的明文数据时会出现挑战。</p>
 <p>各种操作模式解决了这个问题，允许对不同长度的消息进行加密和解密。一些常用的模式包括：</p>
+<ol>
+<li>
 <p>Electronic Codebook (ECB) Mode</p>
+</li>
+<li>
 <p>Cipher Block Chaining (CBC) Mode</p>
+</li>
+<li>
 <p>Counter (CTR) Mode</p>
+</li>
+</ol>
 <p>任何算法都可以采用这些模式；</p>
 <p>例如，您可能会遇到 AES-CBC 或 DES-CBC。</p>
 <p>在oracle padding中，我们的重点是密码块链接（CBC）模式。</p>
 <h4 id="cbc">CBC</h4>
 <p>一般来说CBC采用两个操作,一个是加密,一个是异或操作</p>
-<p>第一块明文,加密之后与初始向量异或,第二块明文加密之后,与第一块密文相异或&hellip;这种方案,即使明文相同,由于初始向量是不同的,密文最终也是不同的<br>
-<img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_4.png"><br>
-解密的时候<br>
-首先将最后一块密文C[-1],使用解密算法解密,得到伪明文M[-1],然后将伪明文M[-1]与倒数第二块密文C[-2]进行异或,得到明文P[-1]</p>
-<p>先解密,然后再异或<br>
+<p>第一块明文,加密之后与初始向量异或,第二块明文加密之后,与第一块密文相异或&hellip;这种方案,即使明文相同,由于初始向量是不同的,密文最终也是不同的
+<img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_4.png">
+解密的时候,首先将最后一块密文C[-1],使用解密算法解密,得到伪明文M[-1],然后将伪明文M[-1]与倒数第二块密文C[-2]进行异或,得到明文P[-1]</p>
+<p>先解密,然后再异或
 <img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_5.png"></p>
 <h3 id="异或运算">异或运算</h3>
 <p>异或操作具有逆运算特性,即已知结果和一个操作数,就能退出来另外一个操作数</p>
@@ -562,7 +569,7 @@ MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译�
 </span></span><span style="display:flex;"><span><span style="color:#79c0ff">在等号两边同时异或一个B</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">=</span>&gt;  <span style="color:#79c0ff">B</span><span style="color:#ff7b72;font-weight:bold">=</span>C^A
 </span></span></code></pre></div><h2 id="漏洞检测">漏洞检测</h2>
-<p>当密文值被修改之后,服务器不能正确的恢复明文时,会有报错信息回显出来<br>
+<p>当密文值被修改之后,服务器不能正确的恢复明文时,会有报错信息回显出来
 <img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_6.png"></p>
 <h2 id="攻击原理">攻击原理</h2>
 <p>这里假设一个情形</p>
@@ -571,8 +578,8 @@ MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译�
 </span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">encrypted_data</span> <span style="color:#ff7b72;font-weight:bold">=</span> b<span style="color:#a5d6ff">&#39;31323334353637383930313233343536f044039223b4b9aea7bc48cd1be80682&#39;</span>
 </span></span><span style="display:flex;"><span>    oracle_padding<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">ciphertext</span><span style="color:#ff7b72;font-weight:bold">=</span>encrypted_data<span style="color:#ff7b72;font-weight:bold">)</span>
 </span></span></code></pre></div><p>在许多实现中，IV 与消息一起传输。这里假设encrypted_data的前面十六个字节表示IV值,其他值是Cookie</p>
-<p>对于每个密文块而言,先将密文解密成伪明文,然后与IV(对于其他的密文块而言,IV就是前面一个密文块)进行异或,得到明文<br>
-<img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_7.png"><br>
+<p>对于每个密文块而言,先将密文解密成伪明文,然后与IV(对于其他的密文块而言,IV就是前面一个密文块)进行异或,得到明文
+<img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_7.png">
 这里如果我们修改IV值,就能够改变服务器那边解密出来的明文值,而服务器出现解密失败的话,会有填充错误的信息回显出来,(<em>这是漏洞产生的条件</em>)表明服务器检查了解密出来的明文的最后一个字节并将其识别为无效的填充字节。</p>
 <p>如果我们尝试对IV进行逐个字节的修改,来让解密之后的明文的填充字节有效(并且我们是知道的),就能逐个字节的解密出来中间的伪明文,最后通过与已知的IV异或,就能得到明文值</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>步骤:
@@ -595,7 +602,7 @@ MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译�
 </span></span></code></pre></div><p>然而，对于倒数第二个字节，我们需要尝试所有可能的值。从 0x00 开始递增，直到没有错误为止，我们发现 IV 字节是 0x35。</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Keystream<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> IV<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> ^ 0x02
 </span></span><span style="display:flex;"><span>Keystream<span style="color:#ff7b72;font-weight:bold">[</span>14<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x35 ^ <span style="color:#79c0ff">0x02</span> <span style="color:#ff7b72;font-weight:bold">=</span> 0x37
-</span></span></code></pre></div><p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_9.png"><br>
+</span></span></code></pre></div><p><img src="https://img.l1uyun.one/202407160948_oracle-padding-attack_image_9.png">
 &hellip;重复上述过程,直到恢复所有的伪明文</p>
 <h3 id="恢复明文">恢复明文</h3>
 <p>第二阶段很简单,我们已经有了原始的IV值,和解密出来的伪明文,直接异或就能得到明文</p>
@@ -639,6 +646,6 @@ MyBatis支持两种参数符号，一种是#，另一种是$，#使用预编译�
 <h1 id="一句话总结">一句话总结</h1>
 <p>通过修改IV值的末尾字节,来控制解密之后的明文的末尾字节为填充字节,从而获得中间值,进而获取明文</p>
 <h1 id="引用">引用</h1>
-<p><a href="https://medium.com/@masjadaan/oracle-padding-attack-a61369993c86">Oracle Padding Attack</a><br>
+<p><a href="https://medium.com/@masjadaan/oracle-padding-attack-a61369993c86">Oracle Padding Attack</a>
 <a href="https://book.hacktricks.xyz/crypto-and-stego/padding-oracle-priv">hacktricks_Padding Oracle</a></p>
 ]]></content></item></channel></rss>
