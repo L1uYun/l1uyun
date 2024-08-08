@@ -67,13 +67,13 @@ FileOutputStream("ser.txt"));
 ### ObjectInputStream
 如果能找到一个对象的class文件，我们可以进行反序列化操作，调用 ObjectInputStream 读取对象的方法
 
-```
+```bash
 ObjectInputStream.readObject()：任何类如果想要序列化必须实现java.io.Serializable接口
 ```
 
 ### 原生序列化类函数
 
-```
+```bash
 -SnakeYaml：完整的YAML1.1规范Processor，支持Java对象的序列化/反序列化
 -XMLDecoder：xml语言格式序列化类函数接口
 -ObjectInputStream.readObject()：任何类如果想要序列化必须实现java.io.Serializable接口
@@ -85,7 +85,7 @@ ObjectInputStream.readObject()：任何类如果想要序列化必须实现java.
 - [JavaSec](https://github.com/bewhale/JavaSec)
 
 利用工具,后面两个工具集成了第一个
-```
+```bash
 https://github.com/frohoff/ysoserial
 Yakit https://yaklang.com/
 https://github.com/NotSoSecure/SerializedPayloadGenerator
@@ -137,7 +137,7 @@ public static void main(String [] args) throws IOException, ClassNotFoundExcepti
 ### 漏洞代码
 靶机平台上的
 #### ObjectInputStream
-```
+```java
 // readObject，读取输入流,并转换对象。ObjectInputStream.readObject() 方法的作用正是从一个源输入流中读取字节序列，再把它们反序列化为一个对象。
 // 生成payload：java -jar ysoserial-0.0.6-SNAPSHOT-BETA-all.jar CommonsCollections5 "open -a Calculator" | base64
 
