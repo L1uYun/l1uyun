@@ -7,5 +7,10 @@
   "templater-obsidian",
   "obsidian-git",
   "mousewheel-image-zoom",
-  "obsidian-auto-link-title"
+  "obsidian-auto-link-title",
+  "cm-typewriter-scroll-obsidian",
+  "url-display",
+  "cycle-through-panes",
+  "remember-cursor-position",
+  "mononote"
 ]
