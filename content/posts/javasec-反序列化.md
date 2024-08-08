@@ -20,7 +20,6 @@ Java的序列化技术就是把对象转换成一串由二进制字节组成的�
 - 该类必须实现 java.io.Serializable 对象
 - 该类的所有属性必须是可序列化的。如果有一个属性不是可序列化的，则该属性必须注明是短暂的序列化过程：
 
-
 1. 序列化：将 OutputStream 封装在 ObjectOutputStream 内，然后调用 writeObject 即可
 2. 反序列化：将 InputStream 封装在 ObjectInputStream 内，然后调用 readObject 即可反序列化出错可能原因
 3. 序列化字节码中的 serialVersionUID(用于记录java序列化版本)在进行反序列化时，JVM 会把传来的字节流中的 serialVersionUID 与本地相应实体类的 serialVersionUID 进行比较，如果相同就认为是一致的，可以进行反序列化，否则就抛出序列化版本不一致的异常- InvalidCastException
