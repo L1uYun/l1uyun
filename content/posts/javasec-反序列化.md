@@ -283,5 +283,7 @@ burp插件
 
 # 参考
 [Java反序列化基础篇-01-反序列化概念与利用 - FreeBuf网络安全行业门户](https://www.freebuf.com/articles/web/333697.html)
+
 [java反序列化漏洞专项 - 飘渺红尘✨ - 博客园](https://www.cnblogs.com/piaomiaohongchen/p/16447244.html)
+
 [JAVA安全-序列化与反序列化基础详解](https://xz.aliyun.com/t/13060?time__1311=GqmhBK4GxRhx%2FWNiQo40IFqWuxiw5pD)
