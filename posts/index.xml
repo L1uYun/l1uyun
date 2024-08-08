@@ -225,9 +225,9 @@ java序列化的数据一般会以标记(ac ed 00 05)开头，base64编码的特
 <h1 id="一句话总结">一句话总结</h1>
 <p>反序列化时会调用被反序列化对象的readObject方法,当这个方法被重写后,就会导致漏洞产生</p>
 <h1 id="参考">参考</h1>
-<p><a href="https://www.freebuf.com/articles/web/333697.html">Java反序列化基础篇-01-反序列化概念与利用 - FreeBuf网络安全行业门户</a>
-<a href="https://www.cnblogs.com/piaomiaohongchen/p/16447244.html">java反序列化漏洞专项 - 飘渺红尘✨ - 博客园</a>
-<a href="https://xz.aliyun.com/t/13060?time__1311=GqmhBK4GxRhx%2FWNiQo40IFqWuxiw5pD">JAVA安全-序列化与反序列化基础详解</a></p>
+<p><a href="https://www.freebuf.com/articles/web/333697.html">Java反序列化基础篇-01-反序列化概念与利用 - FreeBuf网络安全行业门户</a></p>
+<p><a href="https://www.cnblogs.com/piaomiaohongchen/p/16447244.html">java反序列化漏洞专项 - 飘渺红尘✨ - 博客园</a></p>
+<p><a href="https://xz.aliyun.com/t/13060?time__1311=GqmhBK4GxRhx%2FWNiQo40IFqWuxiw5pD">JAVA安全-序列化与反序列化基础详解</a></p>
 ]]></content></item><item><title>javasec-xxe</title><link>https://l1uyun.one/posts/2024/07/javasec-xxe/</link><pubDate>Fri, 26 Jul 2024 00:00:00 +0000</pubDate><guid>https://l1uyun.one/posts/2024/07/javasec-xxe/</guid><description>xxe注入 前置知识 XML文档 要了解XXE漏洞，那么先得了解一下有关XML的基础知识。 XML是一种非常流行的标记语言，在1990年代后期首次标</description><content type="html"><![CDATA[<h1 id="xxe注入">xxe注入</h1>
 <h2 id="前置知识">前置知识</h2>
 <h3 id="xml文档">XML文档</h3>
