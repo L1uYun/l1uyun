@@ -6,5 +6,6 @@
   "homepage",
   "templater-obsidian",
   "obsidian-git",
-  "mousewheel-image-zoom"
+  "mousewheel-image-zoom",
+  "obsidian-auto-link-title"
 ]
