@@ -1,7 +1,8 @@
 ---
 title: javasec-反序列化
-date: 2024-08-08
-tags: ['sec/javasec']
+date: 2024-08-01
+tags:
+  - sec/javasec
 ---
 # 反序列化
 序列化是将Java对象转换成字节流的过程。而反序列化是将字节流转换成Java对象的过程，
